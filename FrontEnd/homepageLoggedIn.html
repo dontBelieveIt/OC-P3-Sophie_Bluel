@@ -10,16 +10,16 @@
 	<meta name="description" content="">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 	<link rel="stylesheet" href="./assets/style.css">
+    <script src="assets/script.js" defer></script>
 </head>
 <body>
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
-			<li>projets</li>
 			<li><b><a href="homepageLoggedIn.html">HomePage logged in</a></b></li>
 			<li>contact</li>
-			<li><a href=login.html>login</a></li>
+			<li><a href=index.html>logout</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -37,7 +37,13 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2> <button id="modify"><span class="material-symbols-outlined">edit_square</span>modifier</button>
+		<h2>Mes Projets</h2> <br>
+        <button data-open-modal class="btn"><span class="material-symbols-outlined">edit_square</span>modifier</button>
+        <dialog data-modal class="modal">
+        <div>This is a modal</div>
+        <button data-close-modal>close</button>
+        </dialog>
+
 		<div class="gallery">
 			<figure>
 				<img src="assets/images/abajour-tahina.png" alt="Abajour Tahina">
