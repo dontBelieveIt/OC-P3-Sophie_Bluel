@@ -271,11 +271,39 @@ footer {
 .btn {
 	padding: 10px 2rem;
 	font-size: 20px;
-  }
-  .modal {
-	padding: 3rem 6rem;
-  }
-  div {
+}
+
+dialog {
+	width: 21rem; 
+	height: 100%;
+	border: none; 
+	border-radius: 10px; 
+}
+.modal {
+	padding: 3rem 3rem;
+	width: 21rem;
+    height: 23.5rem;
+	display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.modal-content> h1	{
+	font-family: 'Work Sans';	
 	margin-bottom: 10px;
-	font-size: 20px;
-  }
+	font-size: 1.5rem;
+	text-decoration: none;
+	color: unset;
+	font-weight: 400;
+}
+.galerie-content { 
+	display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    height: 18rem;
+    width: 19rem;
+}
+.galerie-content>img { 
+	height: 4.75rem; 
+	width: 6.35rem;
+}
