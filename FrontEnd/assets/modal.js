@@ -1,16 +1,16 @@
-const openModal = document.querySelector("#data-open-modal"),
-      modal = document.querySelector("#data-modal"),
-      closeModal = document.querySelector("#data-close-modal"),
-      dialog = document.querySelector("dialog");
-      ;
-      
+const openModal = document.querySelector("#data-open-modal");
+const modal = document.querySelector("#data-modal");
+const closeModal = document.querySelector("#data-close-modal");
+const dialog = document.querySelector("dialog");
 
-openModal.addEventListener("click", () => {
+// To open the Modal onclick
+openModal.onclick = function() {
   modal.style.display = "block"; 
   dialog.style.display = "block";
-});
+};
 
-closeModal.addEventListener("click", () => {
+// When the user clicks on <span> (x), close the modal
+closeModal.onclick = function() {
   modal.style.display = "none";
   dialog.style.display = "none";
-});
+};

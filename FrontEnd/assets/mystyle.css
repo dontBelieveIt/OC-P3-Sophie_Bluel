@@ -85,6 +85,29 @@ footer {
 	right: 0;
 }
 
+/***********************************************************FILTER*********************************************************/
+.filter {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+    gap: 1rem;
+}
+.active {
+    color: var(--bg);
+    background-color: var(--green);	
+    border: 1px solid var(--green);
+    transition: .4s; 
+    padding: 0.4rem 1.4rem;
+}
+.filter-btn {
+    color: var(--green);
+    background-color: transparent;	
+    border: 1px solid var(--green);
+    transition: .4s; 
+    padding: 0.4rem 1.4rem;
+}
+
+
 /***********************************************************MODAL*********************************************************/
 #mesProjets { 
 	display: flex;
@@ -96,13 +119,19 @@ footer {
 	background: transparent;
     border: none;
     margin-left: 1rem;
+	padding: 10px 2rem;
     display: flex;
     align-items: center;
+    animation: : ease-out;
+    animation-duration: 300ms;
 }
 
 .btn {
-	padding: 10px 2rem;
-	font-size: 20px;
+	font-family: 'Syne';
+    font-weight: 100;
+    font-size: 0.7rem;
+    text-align: center;
+    border-radius: 60px;
 }
 
 .btn-close-modal {
@@ -111,6 +140,7 @@ footer {
 	border: none;
 	right: 1rem; 
 	top: 1rem;
+	padding: 10px 2rem;
 }
 .btn-close-modal> .material-symbols-outlined {
 	font-variation-settings:
@@ -121,17 +151,12 @@ footer {
   }
   
 .btn-green {
-	font-family: 'Syne';
-    font-weight: 100;
-    font-size: 0.7rem;
     color: white;
     background-color: var(--green);	
     margin: 2em auto;
     width: 12rem;
-    text-align: center;
-    border-radius: 60px;
-    padding: 0.5rem;
     border: none;
+	padding: 10px 2rem;
 }
   
 dialog {
