@@ -1,11 +1,16 @@
-const openModal = document.querySelector("[data-open-modal]"),
-      modal = document.querySelector("[data-modal]"),
-      closeModal = document.querySelector("[data-close-modal]");
+const openModal = document.querySelector("#data-open-modal"),
+      modal = document.querySelector("#data-modal"),
+      closeModal = document.querySelector("#data-close-modal"),
+      dialog = document.querySelector("dialog");
+      ;
+      
 
 openModal.addEventListener("click", () => {
-  modal.showModal();
+  modal.style.display = "block"; 
+  dialog.style.display = "block";
 });
 
 closeModal.addEventListener("click", () => {
-  modal.close();
+  modal.style.display = "none";
+  dialog.style.display = "none";
 });

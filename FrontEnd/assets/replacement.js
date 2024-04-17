@@ -10,7 +10,7 @@ function validerMail(email) {
         email.value ="";
     }
     return false
-}
+};
 
 loginForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -28,7 +28,20 @@ loginForm.addEventListener("submit", (e) => {
 /*********************************************************************************************************************************/
 //LOCAL STORAGE
 /**********************************************************************************************************************************/
-let galleryPhotos = window.localStorage.getItem('images');
+let galleryPhotos = window.localStorage.getItem('assets/images/.');
+if (galleryPhotos === null){
+    // Récupération des pièces depuis l'API
+    const reponse = await fetch('assets/galleryPhotos.json');
+    galleryPhotos = await reponse.json();
+    alert("Working!");
+    // Transformation des pièces en JSON
+    const valeurgalleryPhotos = JSON.stringify(galleryPhotos);
+    // Stockage des informations dans le localStorage
+    window.localStorage.setItem("galleryPhotos", valeurgalleryPhotos);
+ }else{
+     galleryPhotos = JSON.parse(galleryPhotos);
+
+ }
 
 // Fonction qui génère toute la page web
 function genererPhotos(galleryPhotos) {
@@ -40,9 +53,7 @@ function genererPhotos(galleryPhotos) {
         currentPhoto.appendChild(galleryZone);
     
     }
-
-    ajoutListenersAvis();
-}
+};
  
-genererPieces(galleryPhotos);
+genererPhotos(galleryPhotos);
 
