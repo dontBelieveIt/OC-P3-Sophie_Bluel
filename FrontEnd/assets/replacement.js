@@ -1,3 +1,4 @@
+/*
 // login script
 const loginForm = document.getElementById("loginBox");
 const email = document.getElementById("loginMail");
@@ -24,10 +25,11 @@ loginForm.addEventListener("submit", (e) => {
     console.log("Login unsuccessful")
 
 });
-
+*/
 /*********************************************************************************************************************************/
 //LOCAL STORAGE
 /**********************************************************************************************************************************/
+/*
 let galleryPhotos = window.localStorage.getItem('assets/images/.');
 if (galleryPhotos === null){
     // Récupération des pièces depuis l'API
@@ -57,3 +59,4 @@ function genererPhotos(galleryPhotos) {
  
 genererPhotos(galleryPhotos);
 
+*/

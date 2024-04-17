@@ -14,8 +14,8 @@ function validerMail(email) {
 }
 */
 
-loginForm.addEventListener("submit", (e) => {
-    e.preventDefault();
+loginForm.addEventListener("submit", () => {
+    preventDefault();
     alert("loginform complete");
     
     const email = document.getElementById("loginMail"); 
