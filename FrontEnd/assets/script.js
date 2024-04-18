@@ -1,18 +1,8 @@
+/**********************************************Login Functions**********************************************************/
 // login script
 const loginForm = document.getElementById("loginBox");
 const email = document.getElementById("email");
 const password = document.getElementById("password");
-const apiUrl = await "http://localhost:5678/api"
-
-/*
-function validerMail(email) {
-    let mailRegEx = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[[a-z0-9._-]+]")
-    if (mailRegEx.test(email)) {
-        return true
-    }
-    return false
-}
-*/
 
 loginForm.addEventListener("submit", () => {
     preventDefault();
@@ -28,7 +18,7 @@ loginForm.addEventListener("submit", () => {
     
     .then(response => {
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error('Networks response was not ok');
         }
         return response.json();
         
