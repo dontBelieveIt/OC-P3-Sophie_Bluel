@@ -1,41 +1,31 @@
-alert("test1"); 
 const response = await fetch('http://localhost:5678/api/works');
-console.log("test1"); 
-let projet = await response.json(); 
-console.log("test 2");
-console.log(projet);
-// const requestOption = {methode : 'GET', 
-//     header: {'Content-Type':'application/json'}
-// };
-// .then(response => {});
-// const works = reponse.json();
-// SELECT `works`.`id`, `works`.`title`, `works`.`imageUrl`, `works`.`categoryId`, `works`.`userId`, `category`.`id` AS `category.id`, `category`.`name` AS `category.name` FROM `works` AS `works` LEFT OUTER JOIN `categories` AS `category` ON `works`.`categoryId` = `category`.`id`;
-/*
-function genererPhotos(photos){
+let works = await response.json(); 
+
+const photoZone = document.querySelector(".gallery");
+function genererPhotos(works){
     for (let i = 0; i < works.length; i++) {
 
         const workPhoto = works[i];
         const figurePhotos = document.createElement("figure");
-        const figureClass = document.classList.createElement(workCategory);
-        figureClass.src = works.category;
         const photoUrl = document.createElement("img");
-        photoUrl.src = works.imageURL;
+        photoUrl.src = workPhoto.imageUrl;
         const photoTitle = document.createElement("figcaption");
-        photoTitle.innerText = works.title;
+        const photoCaption = document.createElement("p"); 
+        const photoCaptionContent = ""; 
+        photoCaption.innerText = workPhoto.title;
+        console.log(photoTitle)
+        console.log(workPhoto.title)
         
-        // On rattache la balise article a la section Fiches
-        figurePhotos.appendChild(photoZone);
-        figurePhotos.appendChild(photoUrl);
-        figurePhotos.appendChild(photoTitle);
+        photoZone.appendChild(figurePhotos);
+        figurePhotos.appendChild(photoUrl); 
+        figurePhotos.appendChild(photoTitle); 
+        photoTitle.appendChild(photoCaption);  
      }
 }
 
-genererPhotos(photos);
-*/
-/**********************************************variables declaration for all following function**********************************************************/
-/*
-const photoZone = document.querySelector(".gallery");
+genererPhotos(works);
 
+/**********************************************variables declaration for all following function**********************************************************/
 // "Tous" button
 const noFilterBtn = document.querySelector(".all-btn");
 const noFilter = document.querySelector(".all"); 
@@ -48,10 +38,10 @@ const appartementsFilter = document.querySelector(".appartements");
 // hotel and resto button
 const hotelRestoFilterBtn = document.querySelector(".hotelResto-btn"); 
 const hotelRestoFilter = document.querySelector(".hotelResto"); 
-*/
+
 /**********************************************All Functions**********************************************************/
 
-/*function noFilterBtnClass(noFilterBtn) {
+function noFilterBtnClass(noFilterBtn) {
     noFilterBtn.classList.add("filter-btn"); 
     noFilterBtn.classList.remove("active");
 };
@@ -61,9 +51,9 @@ function filtrerPhotos(c, allOtherElements) {
     c.style.display = "block"; 
     allOtherElements.style.display = "none";
 };
-*/
+
 /**********************************************Event Listener**********************************************************/
-/*
+
 // no filter, show all button
 noFilterBtn.addEventListener("click", () => {
     // btn-class
@@ -73,10 +63,10 @@ noFilterBtn.addEventListener("click", () => {
     let allOtherElements = ""; 
     filtrerPhotos(all, allOtherElements); 
 });
-*/
+
 
 // Filter for Objects
-/*
+
 objectsFilterBtn.addEventListener("click", () => {
     noFilterBtnClass(noFilterBtn);
     
@@ -98,4 +88,4 @@ hotelRestoFilterBtn.addEventListener("click", () => {
     let allOtherElements = [objectsFilter, appartementsFilter]
     filtrerPhotos(hotelRestoFilter, allOtherElements); 
 });
-*/
+
