@@ -1,5 +1,9 @@
+// Get for works
 const response = await fetch('http://localhost:5678/api/works');
 let works = await response.json(); 
+// Get for categories (filtered Work)
+const resp = await fetch('http://localhost:5678/api/categories');
+let category = await resp.json();
 
 const photoZone = document.querySelector(".gallery");
 function genererPhotos(works){
@@ -13,8 +17,6 @@ function genererPhotos(works){
         const photoCaption = document.createElement("p"); 
         const photoCaptionContent = ""; 
         photoCaption.innerText = workPhoto.title;
-        console.log(photoTitle)
-        console.log(workPhoto.title)
         
         photoZone.appendChild(figurePhotos);
         figurePhotos.appendChild(photoUrl); 
@@ -22,70 +24,62 @@ function genererPhotos(works){
         photoTitle.appendChild(photoCaption);  
      }
 }
-
 genererPhotos(works);
 
-/**********************************************variables declaration for all following function**********************************************************/
-// "Tous" button
-const noFilterBtn = document.querySelector(".all-btn");
-const noFilter = document.querySelector(".all"); 
-// Objects button
-const objectsFilterBtn = document.querySelector(".objects-btn");
-const objectsFilter = document.querySelector(".objects"); 
-// appartement and hotel button
-const appartementsFilterBtn = document.querySelector(".appart-btn");
-const appartementsFilter = document.querySelector(".appartements"); 
-// hotel and resto button
-const hotelRestoFilterBtn = document.querySelector(".hotelResto-btn"); 
-const hotelRestoFilter = document.querySelector(".hotelResto"); 
-
 /**********************************************All Functions**********************************************************/
-
 function noFilterBtnClass(noFilterBtn) {
     noFilterBtn.classList.add("filter-btn"); 
     noFilterBtn.classList.remove("active");
 };
 
-function filtrerPhotos(c, allOtherElements) {
-    photoZone.innerHTML = ""; 
-    c.style.display = "block"; 
-    allOtherElements.style.display = "none";
-};
+function filterThis(filteredWork) {
+    photoZone.innerHTML = "";
+    for (let i = 0; i < works.length; i++) {
+        const workPhoto = works[i];
+        const workCategory = workPhoto.category; 
+        const categoryName = workCategory.name; 
+
+        if (workCategory === categoryId) {
+            return true
+        }
+        return filteredWork;
+    }
+    genererPhotos(filteredWork); 
+
+}
+      
 
 /**********************************************Event Listener**********************************************************/
-
 // no filter, show all button
+const noFilterBtn = document.querySelector(".all-btn");
 noFilterBtn.addEventListener("click", () => {
     // btn-class
     noFilterBtn.classList.add("active"); 
     noFilterBtn.classList.remove("filter-btn");
     // filter
-    let allOtherElements = ""; 
-    filtrerPhotos(all, allOtherElements); 
+    genererPhotos(works); 
 });
 
 
 // Filter for Objects
-
+const objectsFilterBtn = document.querySelector(".objects-btn");
 objectsFilterBtn.addEventListener("click", () => {
-    noFilterBtnClass(noFilterBtn);
-    
-    let allOtherElements = [appartementsFilter, hotelRestoFilter]; 
-    filtrerPhotos(objectsFilter, allOtherElements); 
+   noFilterBtnClass(noFilterBtn);
+   filterThis(filteredWork, objects);
 }); 
 
-
+const appartementsFilterBtn = document.querySelector(".appart-btn");
 appartementsFilterBtn.addEventListener("click", () => {
     noFilterBtnClass(noFilterBtn); 
-    let allOtherElements = [objectsFilter, hotelRestoFilter]
-    filtrerPhotos(appartementsFilter, allOtherElements); 
+    photoZone.innerHTML = ""; 
+
 });
 
-
+const hotelRestoFilterBtn = document.querySelector(".hotelResto-btn"); 
 hotelRestoFilterBtn.addEventListener("click", () => {
     // btn-class
     noFilterBtnClass(noFilterBtn);
-    let allOtherElements = [objectsFilter, appartementsFilter]
-    filtrerPhotos(hotelRestoFilter, allOtherElements); 
+    photoZone.innerHTML = ""; 
+
 });
 
