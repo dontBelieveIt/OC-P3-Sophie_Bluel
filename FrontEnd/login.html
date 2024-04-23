@@ -32,12 +32,12 @@
 		<main>
 			<section id="login">
 				<h2>Log In</h2>
-				<form id="loginBox">
+				<form id="form" method="post">
 					<label for="email">E-mail</label><br>
-					<input type="text" name="email" id="email" autocomplete="email" required><br>
+					<input type="email" name="email" id="email" autocomplete="email" required><br>
 					<label for="password">Mot de passe</label><br>
-					<input type="text" name="password" id="password" autocomplete="current-password	" required><br>
-					<input type="submit" value="Se connecter" id="seConnecter" class="btn-green">
+					<input type="password" name="password" id="password" autocomplete="current-password	" required><br>
+					<input type="submit" value="Se connecter" id="submit" class="btn-green">
 					<a id="mdp" href="#">Mot de passe oublié</a>
 				</form>
 			</section>
