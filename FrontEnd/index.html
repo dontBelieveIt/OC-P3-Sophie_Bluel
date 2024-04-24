@@ -42,7 +42,23 @@
 				</article>
 			</section>
 			<section id="portfolio">
-				<h2>Mes Projets</h2>
+				<div id="mesProjets">
+					<h2>Mes Projets</h2> <br>
+					
+					<button id="data-open-modal" class="mes-projets-btn">
+						<span class="material-symbols-outlined">edit_square</span> modifier
+					</button>
+				</div>
+				<dialog id="data-modal" class="modal">
+					<div class="modal-content">
+						<button id="data-close-modal" class="btn-close-modal"><span class="material-symbols-outlined">close</span></button>
+						<h1>Galerie photo</h1>
+						<div class="galerie-content"></div>
+						<hr>
+						<button class="dialog-btn btn-green">Ajouter une photo</button>
+					</div>
+				</dialog>
+
 				<div class="filter">
 					<button class="btn active all-btn"> Tous</button>
 					<button class="btn filter-btn objects-btn"> Objets</button>
