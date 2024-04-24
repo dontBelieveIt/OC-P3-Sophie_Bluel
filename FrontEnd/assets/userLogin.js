@@ -1,5 +1,5 @@
 function login() {
-    const loginForm = document.getElementById("form");
+    const loginForm = document.querySelector("form");
     
     loginForm.addEventListener("submit", function (e) {
         e.preventDefault();
@@ -35,4 +35,32 @@ function login() {
         });
     });
 }
-login()
+login();
+
+/**********************************************login/logout button**********************************************************/
+function logged() {
+    const logoutBtn = document.querySelector('.logOut');
+    const loginBtn = document.querySelector('.logIn');
+    const openModal = document.querySelector(".mes-projets-btn");
+
+    const token = sessionStorage.getItem("authToken");
+    console.log(token);
+
+    if (token) {
+        logoutBtn.style.display = "block"; 
+        loginBtn.style.display = "none"; 
+        openModal.style.display = "flex"; 
+    } else {
+        logoutBtn.style.display = "none"; 
+        loginBtn.style.display = "block"; 
+        openModal.style.display = "none";
+    };
+
+    logoutBtn.addEventListener("click", () => {
+        sessionStorage.removeItem("authToken"); 
+        window.location.href = "index.html"; 
+        console.log(token);
+        alert("Log out successful !")
+    });
+}
+logged();

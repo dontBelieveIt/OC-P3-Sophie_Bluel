@@ -181,17 +181,37 @@ footer {
     border: none;
 	padding: 10px 2rem;
 }
-  
+
+
 dialog {
 	width: 21rem; 
 	height: 100%;
 	border: none; 
 	border-radius: 10px; 
+    z-index: 20;
+    box-shadow: 0px 4px 14px var(--shadow);
+}
+
+.overlay {
+    content: "";
+    background-color: var(--black);
+    opacity: 0.3;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right:0;
+    bottom:0;
+    z-index: 10;
 }
 .modal {
-	padding: 3rem 3rem;
-	width: 21rem;
-    height: 23.5rem;
+    padding: 3rem 1rem .5rem 1rem;	
+    width: 40rem;
+    height: 43.5rem;
+    z-index: 50;
+}
+.modal-content {
 	display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -206,14 +226,19 @@ dialog {
 	color: unset;
 	font-weight: 400;
 }
-.galerie-content { 
-	display: flex;
-    justify-content: space-evenly;
+.modal-content hr {
+    width: 70%;
+}
+.gallery-content { 
+    display: flex;
+    justify-content: space-between;
     flex-wrap: wrap;
-    height: 18rem;
-    width: 19rem;
+    height: 30rem;
+    width: 70%;
+    padding: 2.5rem 1rem;
 }
-.galerie-content>img { 
-	height: 4.75rem; 
-	width: 6.35rem;
+.gallery-content img { 
+	width: 4.75rem; 
+	aspect-ratio: 3 / 4;
 }
+
