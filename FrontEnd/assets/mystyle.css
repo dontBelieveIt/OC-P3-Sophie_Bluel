@@ -3,6 +3,7 @@
 **********************************************************************************************************************/
 :root  {
     --green : #1D6154;
+    --grey : #A7A7A7;
 	--black : #3D3D3D;
     --bg : #FFFEF8;
     --shadow : rgba(0, 0, 0, 0.09);
@@ -242,3 +243,46 @@ dialog {
 	aspect-ratio: 3 / 4;
 }
 
+.gallery-content:hover img:not(:hover) {
+    opacity: 0.4;
+}
+.delete-btn {
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background: black;
+    border-radius: 2px;
+    position: relative;
+    top: -6rem;
+    right: -2.8rem;
+    border: none;
+    z-index: 23;
+}
+
+.delete-btn>.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 300,
+  'GRAD' 0,
+  'opsz' 12
+}
+
+.btn-grey {
+    color: white;
+    background-color: var(--grey);	
+    margin: 2em auto;
+    width: 12rem;
+    border: none;
+	padding: 10px 2rem;
+}
+.btn-return {
+    background-color: transparent;
+	position: absolute; 
+	border: none;
+	left: 1rem; 
+	top: 1rem;
+	padding: 10px 2rem;
+}
