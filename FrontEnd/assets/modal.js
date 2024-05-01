@@ -14,12 +14,9 @@ Contents:
 
 
 
-// To fetch the ressources in the gallerie-content for the modal
-  const resp = await fetch('http://localhost:5678/api/works');
-  let works = await resp.json(); 
 // Authentification token requiered for the modals to appear as well as the "Delete" and "Add Work" functions. 
   let token = sessionStorage.getItem("authenticationToken");  
-
+  console.log(token);
 
 
 /**********************************************Open and close modal**********************************************************/
@@ -62,79 +59,69 @@ closeModal.onclick = function() {
 
 // Function for the photos to appear in the modal, (duplication from the generatePhoto(works) (function from the "assets/filter.js" file))
 const modalWorks = document.querySelector(".gallery-content");
-function genererModalPhotos(works){
-    for (let i = 0; i < works.length; i++) {
 
-        const modalPhotos = works[i];
+function genererModalPhotos(){
+  // To fetch the ressources in the gallerie-content for the modal
+  fetch('http://localhost:5678/api/works')
+    .then(resp => resp.json())
+    .then(works => {
+    
+      console.log(works);
+      works.forEach(item => {
+
+        // Creation des figures et images de la modal
         const modalFigure = document.createElement("figure");
+        modalFigure.id = `figure-${item.id}`;
         const modalPhotoURL = document.createElement("img");
-        modalPhotoURL.src = modalPhotos.imageUrl;
-        modalPhotoURL.alt = modalPhotos.alt; 
+        modalPhotoURL.src = item.imageUrl;
+        modalPhotoURL.alt = item.alt; 
         const deleteButton = document.createElement("button");
         deleteButton.classList.add("delete-btn");
-        deleteButton.innerHTML = `<span class="material-symbols-outlined">
-        delete
-        </span>`;
-        // deleteButton.id = `${works[i].id}`;
-        // worksdid = deleteButton.id ;
-        // console.log(deleteButton.id);
+        deleteButton.innerHTML = `<span class="material-symbols-outlined">delete</span>`;
+        deleteButton.setAttribute("dataId", item.id);
         
         modalWorks.appendChild(modalFigure);
         modalFigure.appendChild(modalPhotoURL); 
         modalFigure.appendChild(deleteButton);
 
-        // deleteButtonFunction(modalFigure);
-    }
+        // Event listener for the delete work function 
+        deleteButton.addEventListener("click", deleteWork);         
+      })
+    })
 }
-genererModalPhotos(works);
+genererModalPhotos();
 
 
 
 /******************************************************************************************************************************************
  *********************************************** delete photo modal***************************************************************************
  ******************************************************************************************************************************************/
+function deleteWork(e) {
 
-//  async function deleteWork(worksid) {
+  console.log(e.currentTarget);
+  const thisShit = e.currentTarget.getAttribute("dataId");
+  console.log(thisShit);
+  document.getElementById(`figure-${thisShit}`).style.backgroundColor = "blue"; 
 
-//   deleteBtn = document.querySelectorAll("delete-btn");
-//     console.log(deleteBtn);
-
-//   deleteBtn.addEventListener('click', () => {
-//     try {
-//         fetch(`http://localhost:5678/api/works/${worksdid}`, {
-//         method: "DELETE",
-//         headers: {
-//           accept: "*/*",
-//           authorization: `Bearer ${token}`,
-//       }
-//       })
-//       .then(response => {
-//         if (!response.ok) {
-//           throw new Error('Erreur lors de la suppression  du travail'); 
-//         }
-//         return response; 
-//       })
-//     } catch (error) {
-//       console.error(error);
-//     };
-//   })
-// }
-
-// async function deleteButtonFunction(imgFigure, imgGallery) {
-
-//   if (worksid === deleteButton.id) {
-//     await deleteWork(worksid); 
-
-//     imgGallery.remove();
-//     imgFigure.remove();
-//     location.reload();
-
-//     alert("Suppression réussie"); 
-//   };
-  
-//   console.error(error); 
-// }
-  
+  fetch(`http://localhost:5678/api/works/${thisShit}`, {
+    method: 'DELETE',
+    headers: { 
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    } 
+ })
+ .then(response => {
+    if (response.ok) {
+        alert("Delete successful !")
+    }
+    return response.json();
+  })
+.catch(error => {
+  console.error(error);
+  alert('Une erreur s\'est produite lors de l\'ajout du travail');
+  reject(error);
+});
+};
 
 /******************************************************************************************************************************************
  *********************************************** add photo modal***************************************************************************
