@@ -128,8 +128,6 @@ footer {
 	color: var(--bg);
     background-color: var(--green);	
     border: 1px solid var(--green);
-    transition: .4s; 
-    padding: 0.4rem 1.4rem;
 }
 
 /***********************************************************MODAL*********************************************************/
@@ -285,4 +283,10 @@ dialog {
 	left: 1rem; 
 	top: 1rem;
 	padding: 10px 2rem;
+}
+
+#submit-grey {
+    background-color: var(--grey);
+    border: none;
+    padding: .5rem;
 }

@@ -12,9 +12,9 @@
 		<link rel="stylesheet" href="./assets/style.css">
 		<!-- My added styles -->
 		<link rel="stylesheet" href="assets/mystyle.css">
+		<script type="module" src="assets/userLogin.js"></script>
 		<script type="module" src="assets/modal.js"></script>
 		<script type="module" src="assets/filter.js"></script>
-		<script type="module" src="assets/userLogin.js"></script>
 	</head>
 	<body>
 		<header>
@@ -44,13 +44,13 @@
 				<div id="mesProjets">
 					<h2>Mes Projets</h2> <br>
 
-					<button id="data-open-modal" class="mes-projets-btn">
+					<button hidden id="data-open-modal" class="mes-projets-btn">
 						<span class="material-symbols-outlined">edit_square</span> modifier
 					</button>
 				</div>
 
 				<!-- main modal -->
-				<dialog id="data-modal" class="modal">
+				<dialog hidden id="data-modal" class="modal">
 					<div class="modal-content">
 						<button id="data-close-modal" class="btn-close-modal"><span class="material-symbols-outlined">close</span></button>
 						<h1>Galerie photo</h1>
@@ -61,24 +61,24 @@
 				</dialog>
 
 				<!-- add photo modal -->
-				<dialog id="addPhotoModal" class="modal">
+				<dialog hidden id="addPhotoModal" class="modal">
 					<div class="add-photo-modal modal-content">
 						<button id="add-close-modal" class="btn-close-modal"><span class="material-symbols-outlined">close</span></button>
 						<button id="return-main-modal" class="btn-return"><span class="material-symbols-outlined">arrow_back</span></button>
 						<h1>Ajout photo</h1>
-						<div class="addPhoto"></div>
-						<input type="file">
-						Titre
-						<input type="text">
-						Catégorie
-						<select name="categorie-listbox" requiered>
-							<option value="">--Please choose an option--</option>
-							<option value="1">Objet</option>
-							<option value="2">Appartements</option>
-							<option value="3">Hôtels et Restaurants</option>
-						</select>
-						<hr>
-						<button class="dialog-btn btn-grey btn">Valider</button>
+						<form action="#" method="post" id="addPhoto">
+							<input type="file"><br>
+							<label for="title">Titre</label><br>
+							<input type="text" name="title" id="title" autocomplete="off" requiered><br>
+							<label for ="categorie-listbox">Catégories</label><br>
+							<select name="categorie-listbox" id="categorie-listbox" autocomplete="off" requiered>
+								<option value="1">Objet</option>
+								<option value="2">Appartements</option>
+								<option value="3">Hôtels et Restaurants</option>
+							</select><br>
+							<hr>
+							<input type="submit" id="submit-grey" value="Valider">
+						</form>
 					</div>
 				</dialog>
 				<!-- <div class="overlay" aria-hidden="true	"></div> -->
