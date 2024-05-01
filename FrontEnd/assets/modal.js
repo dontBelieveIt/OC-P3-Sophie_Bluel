@@ -15,8 +15,6 @@ Contents:
 
 
 // Authentification token requiered for the modals to appear as well as the "Delete" and "Add Work" functions. 
-  let token = sessionStorage.getItem("authenticationToken");  
-  console.log(token);
 
 
 /**********************************************Open and close modal**********************************************************/
@@ -97,13 +95,11 @@ genererModalPhotos();
  *********************************************** delete photo modal***************************************************************************
  ******************************************************************************************************************************************/
 function deleteWork(e) {
+  const token = sessionStorage.getItem("authenticationToken");  
 
-  console.log(e.currentTarget);
-  const thisShit = e.currentTarget.getAttribute("dataId");
-  console.log(thisShit);
-  document.getElementById(`figure-${thisShit}`).style.backgroundColor = "blue"; 
+  const itemId = e.currentTarget.getAttribute("dataId");
 
-  fetch(`http://localhost:5678/api/works/${thisShit}`, {
+  fetch(`http://localhost:5678/api/works/${itemId}`, {
     method: 'DELETE',
     headers: { 
       'Authorization': `Bearer ${token}`,
@@ -112,13 +108,13 @@ function deleteWork(e) {
  })
  .then(response => {
     if (response.ok) {
-        alert("Delete successful !")
+        alert("Delete successful !");
+        window.location.reload();
     }
-    return response.json();
   })
 .catch(error => {
   console.error(error);
-  alert('Une erreur s\'est produite lors de l\'ajout du travail');
+  alert('Une erreur s\'est produite lors de la suppression du travail');
   reject(error);
 });
 };

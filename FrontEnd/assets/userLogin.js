@@ -16,39 +16,42 @@
 
 /**********************************************Login Function and Add Event listener**********************************************************/
 function login() {
-     
-    // Define first the elements we will need to identify the user
-    const user = {
-        email: document.querySelector("[name=email]").value,
-        password: document.querySelector("[name=password]").value,
-    };
-
-    // Elements to define the user are then sent to the login API
-    const formData = JSON.stringify(user);
-    fetch("http://localhost:5678/api/users/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: formData
-    })
-
-    .then(res => {
-        if (res.status !== 200) {
-            alert("Erreur : les informations de connexion sont incorrectes. Veuillez réessayer.");
-        } else {
-            return res.json();
-        }
+    const loginForm = document.querySelector("form");
+    
+    loginForm.addEventListener("submit", function (e) {
+        e.preventDefault();
         
-    })
-    .then(auth => {
-        const authorization = data.token;
-        sessionStorage.setItem("authenticationToken", token);
-        window.location.href = "index.html";
-    })
-    .catch(err => {
-        console.log(err);
-        alert("Une erreur s'est produite lors de la connexion. Veuillez réessayer plus tard.");
+        const user = {
+            email: e.target.querySelector("[name=email]").value,
+            password: e.target.querySelector("[name=password]").value,
+        };
+
+        const formData = JSON.stringify(user);
+        fetch("http://localhost:5678/api/users/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: formData
+        })
+
+        .then(response => {
+            if (response.status !== 200) {
+                alert("Erreur : les informations de connexion sont incorrectes. Veuillez réessayer.");
+            } else {
+                return response.json();
+            }
+            
+        })
+        .then(authorization => {
+            const token = authorization.token;
+            sessionStorage.setItem("authenticationToken", token);
+            window.location.href = "index.html";
+        })
+        .catch(err => {
+            console.log(err);
+            alert("Une erreur s'est produite lors de la connexion. Veuillez réessayer plus tard.");
+        });
     });
-};
+}
 
 /*Add Event Listener for the Submit button from the form present  on the login.html file*/
 const loginForm = document.querySelector("form");
