@@ -20,11 +20,6 @@ Contents:
 
 /**********************************************Open and close modal**********************************************************/
 
-// Query selector elements for first modal
-  const openModal = document.getElementById("data-open-modal");
-  const modal = document.querySelector("#data-modal");
-  const closeModal = document.getElementById("data-close-modal");
-  const dialog = document.querySelector("dialog");
 // Query selector element for the add photo modal to appear (from the first modal, via the "Add Photo" Button)
   const openAddPhotoModal = document.getElementById("openAddModal"); 
   const addPhotoModal = document.getElementById("addPhotoModal");
@@ -34,261 +29,352 @@ Contents:
 // This function check, in the first place, the presence of the authentication token. If present, then the "edit" button is present. 
 //***if not present, the edit button is hidden. 
 //***if the edit button is shown, then, once clicked, it opens the modal, where deleting and/or adding a new work is possible. 
+const editModeButton = document.getElementById("mesProjets");
+
 function editMode() {
   const token = sessionStorage.getItem("authenticationToken");
+
   if (token) {
-    openModal.style.display = "flex"; 
-
         // To open the Modal onclick
-    openModal.onclick = function() {
-      // for the main modal, the one appearing as you cilck "Modifier" from the index.html file. 
-      modal.style.display = "block"; 
-      dialog.style.display = "block";
-
-      // for the modal accessible via the main modal ; this one appears while clicking on the "Ajouter Photo" from the main modal
-      // this modal will be qualified as the addPhoto modal in this whole file, whislt the initial modal will be defined as, simply, the modal. 
-      addPhotoModal.style.display = "none";
-      // overlay.style.display = "block"; 
-    };
-
-    // When the user clicks on <span> (x), close the modal
-    closeModal.onclick = function() {
-      modal.style.display = "none";
-      dialog.style.display = "none";
-
-      addPhotoModal.style.display = "none";
-      // overlay.style.display = "none";
-    };
-  } else {
-    openModal.style.display = "none";
-  }
-}
-
-/*
-function showModal() {
-  const modalLocation = document.getElementById("modalsAreHere"); 
-  modalLocation.innerHTML = `
-    <!-- main modal -->
-    <dialog hidden id="data-modal" class="modal">
-      <div class="modal-content">
-        <button id="data-close-modal" class="btn-close-modal"><span class="material-symbols-outlined">close</span></button>
-        <h1>Galerie photo</h1>
-        <div class="gallery-content"></div>
-        <hr>
-        <button id="openAddModal" class="dialog-btn btn-green btn">Ajouter une photo</button>
-      </div>
-    </dialog>
-
-    <!-- add photo modal -->
-    <dialog hidden id="addPhotoModal" class="modal">
-      <div class="add-photo-modal modal-content">
-        <button id="add-close-modal" class="btn-close-modal"><span class="material-symbols-outlined">close</span></button>
-        <button id="return-main-modal" class="btn-return"><span class="material-symbols-outlined">arrow_back</span></button>
-        <h1>Ajout photo</h1>
-        <form action="#" method="post" id="addPhoto">
-          <div class="add-img">
-            <span class="material-symbols-outlined">image</span>
-            <input type="file" name="myImage" accept="image/png, image/jpeg" /><br>
-            <p>jpg, png: 4mo max</p>
-            </div>
-          <label for="title">Titre</label><br>
-          <input type="text" name="title" id="title" autocomplete="off" requiered><br>
-          <label for ="categorie-listbox">Catégories</label><br>
-          <select name="categorie-listbox" id="categorie-listbox" autocomplete="off" requiered>
-            <option value="1">Objet</option>
-            <option value="2">Appartements</option>
-            <option value="3">Hôtels et Restaurants</option>
-          </select><br>
-          <hr>
-          <input type="submit" id="submit-grey" class="btn" value="Valider">
-        </form>
-      </div>
-    </dialog>`
-}
-*/
-editMode();
-/**********************************************Generate photo**********************************************************/
-
-// Function for the photos to appear in the modal, (duplication from the generatePhoto(works) (function from the "assets/filter.js" file))
-const modalWorks = document.querySelector(".gallery-content");
-
-function genererModalPhotos(){
-  // To fetch the ressources in the gallerie-content for the modal
-  fetch('http://localhost:5678/api/works')
-    .then(resp => resp.json())
-    .then(works => {
+    editModeButton.style.display = "flex";
+    const openModal = document.createElement("button"); 
+      openModal.id = "data-open-modal"; 
+      openModal.classList.add("mes-projets-btn"); 
+      openModal.innerHTML = `<span class="material-symbols-outlined">edit_square</span>`+` modifier`;
+      editModeButton.appendChild(openModal);
     
-      works.forEach(item => {
-
-        // Creation des figures et images de la modal
-        const modalFigure = document.createElement("figure");
-        modalFigure.id = `figure-${item.id}`;
-        const modalPhotoURL = document.createElement("img");
-        modalPhotoURL.src = item.imageUrl;
-        modalPhotoURL.alt = item.alt; 
-        const deleteButton = document.createElement("button");
-        deleteButton.classList.add("delete-btn");
-        deleteButton.innerHTML = `<span class="material-symbols-outlined">delete</span>`;
-        deleteButton.setAttribute("dataId", item.id);
-        
-        modalWorks.appendChild(modalFigure);
-        modalFigure.appendChild(modalPhotoURL); 
-        modalFigure.appendChild(deleteButton);
-
-        // Event listener for the delete work function 
-        deleteButton.addEventListener("click", deleteWork);         
-      })
-    })
-}
-genererModalPhotos();
-
-
-
-/******************************************************************************************************************************************
- *********************************************** delete photo modal***************************************************************************
- ******************************************************************************************************************************************/
-function deleteWork(e) {
-  const token = sessionStorage.getItem("authenticationToken");  
-  const itemId = e.currentTarget.getAttribute("dataId");
-
-  fetch(`http://localhost:5678/api/works/${itemId}`, {
-    method: 'DELETE',
-    headers: { 
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    } 
-  })
-  .then(response => {
-    if (response.ok) {
-        alert("Delete successful !");
-        window.location.reload();
-    }
-  })
-  .catch(error => {
-    console.error(error);
-    alert('Une erreur s\'est produite lors de la suppression du travail');
-    reject(error);
-  });
-};
-
-/******************************************************************************************************************************************
- *********************************************** add photo modal***************************************************************************
- ******************************************************************************************************************************************/
-openAddPhotoModal.onclick = function() {
-  modal.style.display = "none"; 
-  addPhotoModal.style.display = "block";
- 
-  const closeAddModal = document.getElementById("add-close-modal"); 
-  closeAddModal.onclick = function() {
-    modal.style.display = "none"; 
-    addPhotoModal.style.display = "none";
-  }
-}; 
-
-btnReturnMainModal.onclick = function() {
-  modal.style.display = "block"; 
-  addPhotoModal.style.display = "none";
-};
-
-/**********************************************add file section**********************************************************/
-// select div in the index.html file
-const fileZone = document.querySelector("#addImg"); 
-  fileZone.classList.add("add-img");
-
-//create element of the div for the adding file section
-const addImgPicture = document.createElement("span"); 
-  addImgPicture.innerText= `image`;
-  addImgPicture.classList.add("material-symbols-outlined");
-const addImgFile = document.createElement("input");
-  addImgFile.type = "file"; 
-  addImgFile.name = "myImage"; 
-  addImgFile.accept = "image/png, image/jpeg";
-  addImgFile.required = true;
-const addImgP = document.createElement("p"); 
-  addImgP.innerText = `jpg, png: 4mo max`; 
-
-fileZone.appendChild(addImgPicture); 
-fileZone.appendChild(addImgFile); 
-fileZone.appendChild(addImgP); 
-
-addImgFile.addEventListener('click', () => { 
-  const imgFileLength = addImgFile.files.length;
-  console.log("This is working!");
-  console.log(imgFileLength);
-  if(imgFileLength > 0){
-    addImgPicture.remove(); 
-    addImgFile.remove(); 
-    addImgP.remove(); 
-
-    const addSomething = document.createElement("p").innerText = "A file has been added !";
+    openModal.onclick = function() {
+      console.log("I clicked !");
+      showModals();
+    };
   };
-  console.log("No file selected.");
-});
-
-/**********************************************Generate photo**********************************************************/
-
-const addImgForm = document.getElementById("addPhoto");
-
-function addImg() {
-  const token = sessionStorage.getItem("authenticationToken");
-  const formData = new FormData(); 
-  
-  formData.append("title", document.getElementById("title").value); 
-  formData.append("category", document.getElementById("categorie-listbox").value); 
-  formData.append("image", addImgFile.files[0]);
-
-      fetch("http://localhost:5678/api/works", {
-          method: "POST",
-          headers: {'Authorization': `Bearer ${token}`},
-          body: formData
-      })
-
-      .then(response => {
-          if (response.status !== 201) {
-              alert("Erreur : l'image n'a pas pu être ajoutée. Veuillez réessayer.");
-          } else {
-              return response.json();
-          }
-          
-      })
-      .then(authorization => {
-          const token = authorization.token;
-          sessionStorage.setItem("authenticationToken", token);
-          window.location.href = "index.html";
-      })
-      .catch(err => {
-          console.log(err);
-          alert("Une erreur s'est produite lors de l'importation du fichier'. Veuillez réessayer plus tard.");
-      });
 };
+editMode();
 
-// function deleteWork(e) {
-//   const token = sessionStorage.getItem("authenticationToken");  
-//   const itemId = e.currentTarget.getAttribute("dataId");
+//This is to create the main modal, where it is possible to delete photos, or go to the "ajouter une photo" modal
+//***for the "Ajouter une photo", see the showAddModal() function 
+const modalLocation = document.getElementById("modalsAreHere"); 
+function showModals() {
 
-//   fetch(`http://localhost:5678/api/works/${itemId}`, {
-//     method: 'DELETE',
-//     headers: { 
-//       'Authorization': `Bearer ${token}`,
-//       'Content-Type': 'application/json'
-//     } 
-//   })
-//   .then(response => {
-//     if (response.ok) {
-//         alert("Delete successful !");
-//         window.location.reload();
-//     }
-//   })
-//   .catch(error => {
-//     console.error(error);
-//     alert('Une erreur s\'est produite lors de la suppression du travail');
-//     reject(error);
-//   });
-// };
+  //creation of the Main Modal and the event linked to button
+  const mainModal = document.createElement("dialog"); 
+    mainModal.classList.add("modal"); 
+    mainModal.id = "data-modal"; 
+    mainModal.style.display = "block"; 
+    modalLocation.appendChild(mainModal); 
+  const modalContent = document.createElement("div"); 
+    modalContent.classList.add("modal-content"); 
+    mainModal.appendChild(modalContent); 
+  const buttonCloseModal = document.createElement("button");
+    buttonCloseModal.id = "data-close-modal"; 
+    buttonCloseModal.classList.add("btn-close-modal"); 
+    buttonCloseModal.innerHTML = `<span class="material-symbols-outlined">close</span>`; 
+    modalContent.appendChild(buttonCloseModal); 
+    buttonCloseModal.addEventListener("click", () => {
+      console.log("I clicked on the close modal button !");
+      mainModal.remove();
+    });
+  const galleryPhotoH1 = document.createElement("h1"); 
+    galleryPhotoH1.innerText = `Galerie photo`; 
+    modalContent.appendChild(galleryPhotoH1);
+  const galleryContentDiv = document.createElement("div"); 
+    galleryContentDiv.classList.add("gallery-content"); 
+    modalContent.appendChild(galleryContentDiv);
+  const modalHr = document.createElement("hr"); 
+    modalContent.appendChild(modalHr);
+  const buttonOpenAddModal = document.createElement("button"); 
+    buttonOpenAddModal.classList.add("btn", "btn-green"); 
+    buttonOpenAddModal.id = "openAddModal";
+    buttonOpenAddModal.innerText = `Ajouter une photo`; 
+    modalContent.appendChild(buttonOpenAddModal);
+    buttonOpenAddModal.addEventListener("click", () => { 
+      console.log("I clicked to go to the second modal !")
+      mainModal.remove();
+      addPhotoModal(); 
+    });
 
-/*Add Event Listener for the Submit button from the form present  on the addImg.html file*/
-addImgForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  console.log("This is working !");
-  addImg();
-});
+  /**********************************************Generate photo***(main modal)*******************************************************/
+  // Function for the photos to appear in the modal, (duplication from the generatePhoto(works) (function from the "assets/filter.js" file))
+  function genererModalPhotos(){
+    // modalWorks = galleryContentDivFunction(); 
+    // To fetch the ressources in the gallerie-content for the modal
+    fetch('http://localhost:5678/api/works')
+      .then(resp => resp.json())
+      .then(works => {
+      
+        works.forEach(item => {
+
+          // Creation des figures et images de la modal
+          const modalFigure = document.createElement("figure");
+          modalFigure.id = `figure-${item.id}`;
+          const modalPhotoURL = document.createElement("img");
+          modalPhotoURL.src = item.imageUrl;
+          modalPhotoURL.alt = item.alt; 
+          const deleteButton = document.createElement("button");
+          deleteButton.classList.add("delete-btn");
+          deleteButton.innerHTML = `<span class="material-symbols-outlined">delete</span>`;
+          deleteButton.setAttribute("dataId", item.id);
+          
+          galleryContentDiv.appendChild(modalFigure);
+          modalFigure.appendChild(modalPhotoURL); 
+          modalFigure.appendChild(deleteButton);
+
+          // Event listener for the delete work function 
+          deleteButton.addEventListener("click", deleteWork);         
+        })
+      })
+  }; //function genererModalPhotos() 
+  genererModalPhotos();
+
+  /******************************************************************************************************************************************
+  *********************************************** delete photo (main Modal)***************************************************************************
+  ******************************************************************************************************************************************/
+  function deleteWork(e) {
+    const token = sessionStorage.getItem("authenticationToken");  
+    const itemId = e.currentTarget.getAttribute("dataId");
+
+    fetch(`http://localhost:5678/api/works/${itemId}`, {
+      method: 'DELETE',
+      headers: { 
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      } 
+    })
+    .then(response => {
+      if (response.ok) {
+          alert("Delete successful !");
+          window.location.reload();
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      alert('Une erreur s\'est produite lors de la suppression du travail');
+      reject(error);
+    });
+  };  //function deleteWork(e)
+
+  /******************************************************************************************************************************************
+  *********************************************** add photo modal***(secondary modal)************************************************************************
+  ******************************************************************************************************************************************/
+  function addPhotoModal() {
+    const dialogAddPhoto = document.createElement("dialog"); 
+      dialogAddPhoto.classList.add("modal"); 
+      dialogAddPhoto.style.display = "block"; 
+      modalLocation.appendChild(dialogAddPhoto); 
+    const addPhotoDiv = document.createElement("div"); 
+      addPhotoDiv.classList.add("add-photo-modal", "modal-content"); 
+      dialogAddPhoto.appendChild(addPhotoDiv); 
+    const btnCloseAddModal = document.createElement("button"); 
+      btnCloseAddModal.id = "add-close-modal"; 
+      btnCloseAddModal.classList.add("btn-close-modal"); 
+      btnCloseAddModal.innerHTML = `<span class="material-symbols-outlined">close</span>`; 
+      addPhotoDiv.appendChild(btnCloseAddModal); 
+      btnCloseAddModal.addEventListener("click", () => {
+        dialogAddPhoto.remove(); 
+      }) 
+    const btnBackMainModal = document.createElement("button"); 
+      btnBackMainModal.id = "return-main-modal"; 
+      btnBackMainModal.classList.add("btn-return"); 
+      btnBackMainModal.innerHTML = `<span class="material-symbols-outlined">arrow_back</span></button>`;
+      addPhotoDiv.appendChild(btnBackMainModal); 
+      btnBackMainModal.addEventListener("click", () => {
+        dialogAddPhoto.remove(); 
+        showModals(); 
+      } )
+    const titleAddModal = document.createElement("h1"); 
+      titleAddModal.innerText = "Ajout photo"; 
+      addPhotoDiv.appendChild(titleAddModal); 
+    
+    /****************************add form***(secondary modal)*********************************************/
+    //Form  
+    const fileZone = document.createElement("form"); 
+      fileZone.action = "#"; 
+      fileZone.method = "post"; 
+      fileZone.id = "addPhoto"; 
+      addPhotoDiv.appendChild(fileZone); 
+      
+      //create element of the div for the adding file section
+      const addImgFileDiv = document.createElement("div"); 
+        addImgFileDiv.id = "addImg";  
+        addImgFileDiv.classList.add("add-img");
+        fileZone.appendChild(addImgFileDiv);
+      const addImgPicture = document.createElement("span"); 
+        addImgPicture.innerText= `image`;
+        addImgPicture.classList.add("material-symbols-outlined");
+        addImgFileDiv.appendChild(addImgPicture); 
+      const addImgFileLabel = document.createElement("label"); 
+        addImgFileLabel.for = "myImage";
+        addImgFileLabel.innerText = `+ Ajouter photo`;  
+        addImgFileDiv.appendChild(addImgFileLabel);
+      const addImgFile = document.createElement("input");
+        addImgFile.type = "file"; 
+        addImgFile.name = "myImage"; 
+        addImgFile.id = "myImage";
+        addImgFile.accept = "image/png, image/jpeg";
+        addImgFile.required = true;
+        console.log(addImgFile)
+        addImgFile.style.display = "none";
+        addImgFileDiv.appendChild(addImgFile);
+      const addImgP = document.createElement("p"); 
+        addImgP.innerText = `jpg, png: 4mo max`; 
+        addImgFileDiv.appendChild(addImgP); 
+      const breakTag = document.createElement("br"); 
+        addImgFileDiv.appendChild(breakTag);
+        console.log(breakTag);
+
+      //Title input 
+      const formTitleLabel = document.createElement("label"); 
+        formTitleLabel.for = "title"; 
+        formTitleLabel.innerText = "Title"; 
+        fileZone.appendChild(formTitleLabel); 
+        const breakTag2a = document.createElement("br"); 
+        fileZone.appendChild(breakTag2a);
+      const formTitleInput = document.createElement("input");
+        formTitleInput.setAttribute("type", "text");
+        formTitleInput.name = "title"; 
+        formTitleInput.id = "title"; 
+        formTitleInput.required = true; 
+        formTitleInput.autocomplete = "off";
+        fileZone.appendChild(formTitleInput); 
+        const breakTag2b = document.createElement("br"); 
+        fileZone.appendChild(breakTag2b);
+      
+      //Categorie input 
+      const formCatLabel = document.createElement("label");
+        formCatLabel.for = "categorie-listbox"; 
+        formCatLabel.innerText = "Catégories"; 
+        fileZone.appendChild(formCatLabel); 
+      const formCatInput = document.createElement("select"); 
+        formCatInput.name = "categorie-listbox"; 
+        formCatInput.id = "categorie-listbox"; 
+        formCatInput.required = true; 
+        fileZone.appendChild(formCatInput); 
+        const breakTag3a = document.createElement("br"); 
+        fileZone.appendChild(breakTag3a);
+        const option1 = document.createElement("option");
+          option1.text = "Objet";
+          option1.value = 1; 
+          formCatInput.add(option1);
+        const option2 = document.createElement("option");
+          option2.text = "Appartements";
+          option2.value = 2; 
+          formCatInput.add(option2);
+        const option3 = document.createElement("option");
+          option3.text = "Hôtels et Restaurants";
+          option3.value = 3; 
+          formCatInput.add(option3);
+      const breakTag3b = document.createElement("br"); 
+      fileZone.appendChild(breakTag3b);
+  
+      //Submit button 
+      const formSubmitBtn = document.createElement("input"); 
+        formSubmitBtn.setAttribute("type", "submit");
+        formSubmitBtn.id = "submit-grey"; 
+        formSubmitBtn.classList.add("btn"); 
+        formSubmitBtn.value = "Valider"; 
+        fileZone.appendChild(formSubmitBtn); 
+        
+
+
+
+
+
+
+    //   addImgFile.addEventListener('input', (e) => { 
+    //     const imgFileLength = addImgFile.files[0].size; 
+    //     console.log(imgFileLength);
+    //     let addImgFileState = false;
+    //     if(imgFileLength > 0){
+    //       addImgFileState = true; 
+    //     //   // addImgPicture.remove(); 
+    //     //   // addImgFile.remove(); 
+
+    //     //   // const output = document.createElement('img');
+    //     //   // output.src = URL.createObjectURL(addImgFile.target.files[0]);
+    //     //   // output.onload = function() {
+    //     //   //   URL.revokeObjectURL(output.src) // free memory 
+    //       console.log("A file has been added !");
+
+    //       let fileSizeKb = imgFileLength /1024 ; //convert byte to kiloBytes ; 
+    //       let fileSizeMb = fileSizeKb / 1024 ; //convert kilobytes into MegaBytes; 
+    //       let fileSizeLimit = 32 //Megabits : because 4Mo = 32Mb. 
+    //       if (fileSizeMb < fileSizeLimit) {
+    //         console.log("Your image respect the size limit.")
+    //         return true; 
+    //       }
+    //       console.log("this img weight " + fileSizeMb + " Mb !");
+
+            
+    // //   addImgP.innerText = "A file has been added !"
+    // //   // }
+    //   }
+    //   return addImgFileState
+    //     });
+
+  } //end of the addModalPhoto() function 
+
+
+
+  // /*Add Event Listener for the Submit button from the form present  on the addImg.html file*/
+  // function allInputFilled() {
+  //     const imgTitle = document.getElementById("title"); 
+  //       let imgTitleState = false; 
+  //     const imgCategorie = document.getElementById("categorie-listbox"); 
+  //       let imgCategorieState = false; 
+  //     const submitButton = document.querySelector("#addPhoto input[type=submit]"); 
+
+  //   addPhoto.addEventListener("change", () => { 
+    
+  //       if (imgTitle.value !== "") {
+  //       imgTitleState = true; 
+  //       }
+  //       if (imgCategorie.value !== "") {
+  //         imgCategorieState = true; 
+  //       }
+
+  //     if (addImgFileState === true && imgTitleState === true && imgCategorie === true) {
+  //       console.log("All input are filled !"); 
+  //       submitButton.removeAttribute("disabled");
+  //     }
+  //   });
+
+  // }
+
+  // /**********************************************Generate photo**********************************************************/
+
+  const addImgForm = document.getElementById("addPhoto");
+
+  function addImg() {
+    const token = sessionStorage.getItem("authenticationToken");
+    const formData = new FormData(); 
+    
+    formData.append("title", document.getElementById("title").value); 
+    formData.append("category", document.getElementById("categorie-listbox").value); 
+    formData.append("image", addImgFile.files[0]);
+
+        fetch("http://localhost:5678/api/works", {
+            method: "POST",
+            headers: {'Authorization': `Bearer ${token}`},
+            body: formData
+        })
+
+        .then(response => {
+            if (response.status !== 201) {
+                alert("Erreur : l'image n'a pas pu être ajoutée. Veuillez réessayer.");
+            } else {
+                return response.json();
+            }
+            
+        })
+        .then(authorization => {
+            const token = authorization.token;
+            sessionStorage.setItem("authenticationToken", token);
+            window.location.href = "index.html";
+        })
+        .catch(err => {
+            console.log(err);
+            alert("Une erreur s'est produite lors de l'importation du fichier'. Veuillez réessayer plus tard.");
+        });
+  };
+
+}

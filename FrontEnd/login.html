@@ -17,12 +17,13 @@
 			<script type="module" src="assets/userLogin.js"></script>
 		</head>
 	<body>
+		<div class="edit-mode"><span class="material-symbols-outlined">edit_square</span> Mode édition</div>
 		<header>
 			<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 			<nav>
 				<ul>
 					<li><a href=index.html>projets</a></li>
-					<li>contact</li>
+					<li><a href="index.html#contact">contact</a></li>
 					<li><b><span class="logOut">logout</span><span class="logIn">login</span></b></li>
 					<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 				</ul>
@@ -37,7 +38,7 @@
 					<input type="email" name="email" id="email" autocomplete="email" required><br>
 					<label for="password">Mot de passe</label><br>
 					<input type="password" name="password" id="password" autocomplete="current-password	" required><br>
-					<!-- <div id="msgErreur"></div> -->
+					<div id="errorMsg"></div>
 					<input type="submit" value="Se connecter" id="submit" class="btn-green">
 					<a id="mdp" href="#">Mot de passe oublié</a>
 				</form>

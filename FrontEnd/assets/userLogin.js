@@ -4,19 +4,21 @@
 
 *Contents: 
     Function login() : Line 
-    **Submit Form add Event Listener
-
+    ***Submit Form add Event Listener
     login/logout Button : Line 
+    ***edition mode header : Line
 
   For the modals gestions and their functions, go see the userLogin.js file (../assets/modal.js); 
   For the gallery section of the index.html file and the filter button, see the filter.js file (../assets/filter.js); 
  */
-
-
-
 /**********************************************Login Function and Add Event listener**********************************************************/
+//Use the api to search whether the user is registered or not. 
+//*** IF the user is registered, produce a authentication token to access the edition mode 
+//*** if the user is not registered, or if the informations provideed (email/mdp) are not correct, return an error message 
 function login() {
     const loginForm = document.querySelector("form");
+    const errorMsgZone = document.getElementById("errorMsg"); 
+    errorMsgZone.style.display = "none"; 
     
     loginForm.addEventListener("submit", function (e) {
         e.preventDefault();
@@ -35,11 +37,11 @@ function login() {
 
         .then(response => {
             if (response.status !== 200) {
-                alert("Erreur : les informations de connexion sont incorrectes. Veuillez réessayer.");
+                errorMsgZone.style.display = "block";
+                errorMsgZone.innerText = "Erreur : les informations de connexion sont incorrectes. Veuillez réessayer.";
             } else {
                 return response.json();
             }
-            
         })
         .then(authorization => {
             const token = authorization.token;
@@ -48,7 +50,8 @@ function login() {
         })
         .catch(err => {
             console.log(err);
-            alert("Une erreur s'est produite lors de la connexion. Veuillez réessayer plus tard.");
+            errorMsgZone.style.display = "block";
+            errorMsgZone.innerText = "Une erreur s'est produite lors de la connexion. Veuillez réessayer plus tard.";
         });
     });
 }
@@ -60,8 +63,6 @@ loginForm.addEventListener("submit", function (e) {
     login();
 });
 
-
-
 /**********************************************login/logout button**********************************************************/
 // This function takes into account wheter the user is successfully logged in or not. 
 // *if successfully logged in, the user will be presented with tle logout button, from the navigation, to logout and remove the authentication token 
@@ -70,8 +71,13 @@ loginForm.addEventListener("submit", function (e) {
 // ***editing works on the index.html file will be impossible. 
 
 function logged() {
+    //For the Login/Log out button, depending whether the user has been successfully logged in 
+    //***if the logged in is successful, then the log out option will be presented, and it will erase the token */
     const logoutBtn = document.querySelector('.logOut');
     const loginBtn = document.querySelector('.logIn');
+
+    //If the user is successfully logged in, a top banner will be displayed on which can be read "Edition Mode"
+    const editModeBanner = document.querySelector(".edit-mode"); 
 
     const token = sessionStorage.getItem("authenticationToken");
     console.log(token);
@@ -79,9 +85,13 @@ function logged() {
     if (token) {
         logoutBtn.style.display = "block"; 
         loginBtn.style.display = "none"; 
+
+        editModeBanner.style.display = "flex"; 
     } else {
         logoutBtn.style.display = "none"; 
         loginBtn.style.display = "block"; 
+
+        editModeBanner.style.display = "none";
     };
 
     // Once the token has been verified as present and the logout button has appeared, it's possible for the user to log out by clicking on this button. 
@@ -93,3 +103,4 @@ function logged() {
     });
 }
 logged();
+
