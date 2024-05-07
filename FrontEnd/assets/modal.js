@@ -188,7 +188,6 @@ function showModals() {
     /****************************add form***(secondary modal)*********************************************/
     //Form  
     const fileZone = document.createElement("form"); 
-      fileZone.action = "#"; 
       fileZone.method = "post"; 
       fileZone.id = "addPhoto"; 
       addPhotoDiv.appendChild(fileZone); 
@@ -203,8 +202,10 @@ function showModals() {
         addImgPicture.classList.add("material-symbols-outlined");
         addImgFileDiv.appendChild(addImgPicture); 
       const addImgFileLabel = document.createElement("label"); 
-        addImgFileLabel.for = "myImage";
+        addImgFileLabel.htmlFor = "myImage";
+        addImgFileLabel.href = "myImage";
         addImgFileLabel.innerText = `+ Ajouter photo`;  
+        console.log(addImgFileLabel)
         addImgFileDiv.appendChild(addImgFileLabel);
       const addImgFile = document.createElement("input");
         addImgFile.type = "file"; 
@@ -220,11 +221,10 @@ function showModals() {
         addImgFileDiv.appendChild(addImgP); 
       const breakTag = document.createElement("br"); 
         addImgFileDiv.appendChild(breakTag);
-        console.log(breakTag);
 
       //Title input 
       const formTitleLabel = document.createElement("label"); 
-        formTitleLabel.for = "title"; 
+        formTitleLabel.htmlFor = "title"; 
         formTitleLabel.innerText = "Title"; 
         fileZone.appendChild(formTitleLabel); 
         const breakTag2a = document.createElement("br"); 
@@ -238,10 +238,13 @@ function showModals() {
         fileZone.appendChild(formTitleInput); 
         const breakTag2b = document.createElement("br"); 
         fileZone.appendChild(breakTag2b);
+        formTitleInput.addEventListener("change", () => { 
+          formSubmitBtnActive();
+        });
       
       //Categorie input 
       const formCatLabel = document.createElement("label");
-        formCatLabel.for = "categorie-listbox"; 
+        formCatLabel.htmlFor = "categorie-listbox"; 
         formCatLabel.innerText = "Catégories"; 
         fileZone.appendChild(formCatLabel); 
       const formCatInput = document.createElement("select"); 
@@ -272,90 +275,73 @@ function showModals() {
         formSubmitBtn.id = "submit-grey"; 
         formSubmitBtn.classList.add("btn"); 
         formSubmitBtn.value = "Valider"; 
+        formSubmitBtn.disabled = true;
         fileZone.appendChild(formSubmitBtn); 
-        
+        formSubmitBtn.addEventListener("submit", () => {
+          addImg();
+        })
+      
+        console.log(fileZone);
+      /****************************addImgFile btn***(secondary modal)*********************************************/
+      //***Add event listener : for the add file section
+      addImgFile.addEventListener('input', (e) => { 
+        const imgFileLength = addImgFile.files[0].size; 
+        if(imgFileLength > 0){
+            let fileSizeMb = imgFileLength /1024 / 1024 ; //convert byte to kiloBytes (first 1024) then to Megabytes (second 1024); 
+            let fileSizeLimit = 32 //Megabits : because 4Mo = 32Mb. 
+            if (fileSizeMb < fileSizeLimit) {
+              console.log("Your image respect the size limit."); 
+              previewImg(); 
+              formSubmitBtnActive();
+              return true
+            } else { 
+              alert("Image trop lourde. Veuillez choisir un autre fichier.")
+              return false 
+            };
+        } else { 
+          alert("Fichier invalide. Veuillez choisir un autre fichier.")
+          return false
+        };
+      });
 
+    function previewImg(e) {
+      addImgPicture.remove(); 
+      addImgFileLabel.remove(); 
+      addImgFile.remove(); 
+      addImgP.remove();
 
+      const addPreviewImg = document.createElement("img"); 
+      addPreviewImg.src=window.URL.createObjectURL(addImgFile[0]);
+      addPreviewImg.appendChild(addImgFileDiv);
+    };
 
-
-
-
-    //   addImgFile.addEventListener('input', (e) => { 
-    //     const imgFileLength = addImgFile.files[0].size; 
-    //     console.log(imgFileLength);
-    //     let addImgFileState = false;
-    //     if(imgFileLength > 0){
-    //       addImgFileState = true; 
-    //     //   // addImgPicture.remove(); 
-    //     //   // addImgFile.remove(); 
-
-    //     //   // const output = document.createElement('img');
-    //     //   // output.src = URL.createObjectURL(addImgFile.target.files[0]);
-    //     //   // output.onload = function() {
-    //     //   //   URL.revokeObjectURL(output.src) // free memory 
-    //       console.log("A file has been added !");
-
-    //       let fileSizeKb = imgFileLength /1024 ; //convert byte to kiloBytes ; 
-    //       let fileSizeMb = fileSizeKb / 1024 ; //convert kilobytes into MegaBytes; 
-    //       let fileSizeLimit = 32 //Megabits : because 4Mo = 32Mb. 
-    //       if (fileSizeMb < fileSizeLimit) {
-    //         console.log("Your image respect the size limit.")
-    //         return true; 
-    //       }
-    //       console.log("this img weight " + fileSizeMb + " Mb !");
-
-            
-    // //   addImgP.innerText = "A file has been added !"
-    // //   // }
-    //   }
-    //   return addImgFileState
-    //     });
+    console.log(formTitleInput.value); 
+    function formSubmitBtnActive() {
+      if (addImgFile.files[0] != undefined && formTitleInput.value != "") {
+        formSubmitBtn.disabled = false; 
+        console.log("The checked has been done !");
+      }
+    }
+    formSubmitBtnActive(); 
 
   } //end of the addModalPhoto() function 
 
 
-
-  // /*Add Event Listener for the Submit button from the form present  on the addImg.html file*/
-  // function allInputFilled() {
-  //     const imgTitle = document.getElementById("title"); 
-  //       let imgTitleState = false; 
-  //     const imgCategorie = document.getElementById("categorie-listbox"); 
-  //       let imgCategorieState = false; 
-  //     const submitButton = document.querySelector("#addPhoto input[type=submit]"); 
-
-  //   addPhoto.addEventListener("change", () => { 
-    
-  //       if (imgTitle.value !== "") {
-  //       imgTitleState = true; 
-  //       }
-  //       if (imgCategorie.value !== "") {
-  //         imgCategorieState = true; 
-  //       }
-
-  //     if (addImgFileState === true && imgTitleState === true && imgCategorie === true) {
-  //       console.log("All input are filled !"); 
-  //       submitButton.removeAttribute("disabled");
-  //     }
-  //   });
-
-  // }
-
-  // /**********************************************Generate photo**********************************************************/
-
-  const addImgForm = document.getElementById("addPhoto");
+  // /**********************************************add photo function***API*******************************************************/
 
   function addImg() {
     const token = sessionStorage.getItem("authenticationToken");
     const formData = new FormData(); 
     
-    formData.append("title", document.getElementById("title").value); 
-    formData.append("category", document.getElementById("categorie-listbox").value); 
+    formData.append("title", formTitleInput.value); 
+    formData.append("category", formCatInput.value); 
     formData.append("image", addImgFile.files[0]);
 
         fetch("http://localhost:5678/api/works", {
             method: "POST",
+            contentType : "application/json; charset=utf-8",
             headers: {'Authorization': `Bearer ${token}`},
-            body: formData
+            body: formData, 
         })
 
         .then(response => {
@@ -377,4 +363,4 @@ function showModals() {
         });
   };
 
-}
+};
