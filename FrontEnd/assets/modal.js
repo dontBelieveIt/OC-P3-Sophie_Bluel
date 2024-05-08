@@ -19,13 +19,6 @@ Contents:
 
 
 /**********************************************Open and close modal**********************************************************/
-
-// Query selector element for the add photo modal to appear (from the first modal, via the "Add Photo" Button)
-  const openAddPhotoModal = document.getElementById("openAddModal"); 
-  const addPhotoModal = document.getElementById("addPhotoModal");
-  const btnReturnMainModal = document.getElementById("return-main-modal");
-// const overlay = document.querySelector(".overlay");
-
 // This function check, in the first place, the presence of the authentication token. If present, then the "edit" button is present. 
 //***if not present, the edit button is hidden. 
 //***if the edit button is shown, then, once clicked, it opens the modal, where deleting and/or adding a new work is possible. 
@@ -55,6 +48,11 @@ editMode();
 //***for the "Ajouter une photo", see the showAddModal() function 
 const modalLocation = document.getElementById("modalsAreHere"); 
 function showModals() {
+
+  const overlay = document.createElement("div"); 
+    overlay.classList.add("overlayed"); 
+    const body = document.querySelector("body"); 
+    body.appendChild(overlay);
 
   //creation of the Main Modal and the event linked to button
   const mainModal = document.createElement("dialog"); 
@@ -90,8 +88,13 @@ function showModals() {
     buttonOpenAddModal.addEventListener("click", () => { 
       console.log("I clicked to go to the second modal !")
       mainModal.remove();
+      overlay.remove();
       addPhotoModal(); 
     });
+    overlay.addEventListener("click", () => {
+      mainModal.remove();
+      overlay.remove()
+    })
 
   /**********************************************Generate photo***(main modal)*******************************************************/
   // Function for the photos to appear in the modal, (duplication from the generatePhoto(works) (function from the "assets/filter.js" file))
@@ -157,6 +160,11 @@ function showModals() {
   *********************************************** add photo modal***(secondary modal)************************************************************************
   ******************************************************************************************************************************************/
   function addPhotoModal() {
+    const overlay2 = document.createElement("div"); 
+    overlay2.classList.add("overlayed"); 
+    const body = document.querySelector("body"); 
+    body.appendChild(overlay2);
+    
     const dialogAddPhoto = document.createElement("dialog"); 
       dialogAddPhoto.classList.add("modal"); 
       dialogAddPhoto.style.display = "block"; 
@@ -185,6 +193,11 @@ function showModals() {
       titleAddModal.innerText = "Ajout photo"; 
       addPhotoDiv.appendChild(titleAddModal); 
     
+      overlay2.addEventListener("click", () => {
+        dialogAddPhoto.remove();
+        overlay2.remove()
+      })
+    
     /****************************add form***(secondary modal)*********************************************/
     //Form  
     const fileZone = document.createElement("form"); 
@@ -205,7 +218,6 @@ function showModals() {
         addImgFileLabel.htmlFor = "myImage";
         addImgFileLabel.href = "myImage";
         addImgFileLabel.innerText = `+ Ajouter photo`;  
-        console.log(addImgFileLabel)
         addImgFileDiv.appendChild(addImgFileLabel);
       const addImgFile = document.createElement("input");
         addImgFile.type = "file"; 
@@ -213,7 +225,6 @@ function showModals() {
         addImgFile.id = "myImage";
         addImgFile.accept = "image/png, image/jpeg";
         addImgFile.required = true;
-        console.log(addImgFile)
         addImgFile.style.display = "none";
         addImgFileDiv.appendChild(addImgFile);
       const addImgP = document.createElement("p"); 
@@ -277,11 +288,11 @@ function showModals() {
         formSubmitBtn.value = "Valider"; 
         formSubmitBtn.disabled = true;
         fileZone.appendChild(formSubmitBtn); 
-        formSubmitBtn.addEventListener("submit", () => {
+        formSubmitBtn.addEventListener("submit", (e) => {
+          e.preventDefault();
           addImg();
         })
       
-        console.log(fileZone);
       /****************************addImgFile btn***(secondary modal)*********************************************/
       //***Add event listener : for the add file section
       addImgFile.addEventListener('input', (e) => { 
@@ -304,22 +315,20 @@ function showModals() {
         };
       });
 
-    function previewImg(e) {
+    function previewImg() {
       addImgPicture.remove(); 
       addImgFileLabel.remove(); 
       addImgFile.remove(); 
       addImgP.remove();
 
       const addPreviewImg = document.createElement("img"); 
-      addPreviewImg.src=window.URL.createObjectURL(addImgFile[0]);
+      addPreviewImg.src = addImgFile[0];
       addPreviewImg.appendChild(addImgFileDiv);
     };
 
-    console.log(formTitleInput.value); 
     function formSubmitBtnActive() {
       if (addImgFile.files[0] != undefined && formTitleInput.value != "") {
         formSubmitBtn.disabled = false; 
-        console.log("The checked has been done !");
       }
     }
     formSubmitBtnActive(); 
@@ -339,7 +348,6 @@ function showModals() {
 
         fetch("http://localhost:5678/api/works", {
             method: "POST",
-            contentType : "application/json; charset=utf-8",
             headers: {'Authorization': `Bearer ${token}`},
             body: formData, 
         })
@@ -359,8 +367,6 @@ function showModals() {
         })
         .catch(err => {
             console.log(err);
-            alert("Une erreur s'est produite lors de l'importation du fichier'. Veuillez réessayer plus tard.");
         });
   };
-
 };
