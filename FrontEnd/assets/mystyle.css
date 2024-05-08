@@ -5,6 +5,8 @@
     --green : #1D6154;
     --grey : #A7A7A7;
     --blue-grey : #E8F1F6;
+    --dark-blue : #306685; 
+    --dark-blue-grey : #CBD6DC;
 	--black : #3D3D3D;
     --bg : #FFFEF8;
     --shadow : rgba(0, 0, 0, 0.09);
@@ -38,6 +40,21 @@ button {
   'GRAD' 0,
   'opsz' 24
 }
+
+/**********************************************edit-mode**********************************************************/
+.edit-mode { 
+    position : relative; 
+    top: 0; 
+    left: 0; 
+    width: 100%;
+    height: 3.69rem; 
+    background-color: black;
+    color: white; 
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+
 
 /***********************************************************Login page*********************************************************/
 #login {
@@ -84,6 +101,9 @@ button {
 #login input[type="submit"] {
 	width: 50%;
 }
+#login input[type="submit"]:hover { 
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5);
+}
 
 #mdp {
 	text-decoration: underline;
@@ -94,6 +114,11 @@ button {
     font-size: 14px;
     font-weight: 500;
     color: var(--black);
+}
+
+#errorMsg {
+    color: red;
+    padding-top : 0.8rem; 
 }
 
 body>footer { 
@@ -145,6 +170,7 @@ footer {
 }
 .mes-projets-btn {
 	background: transparent;
+    font-family: 'Work Sans', sans-serif;
     border: none;
     margin-left: 1rem;
 	padding: 10px 2rem;
@@ -194,13 +220,14 @@ dialog {
 	border: none; 
 	border-radius: 10px; 
     z-index: 20;
+    order: 50; 
     box-shadow: 0px 4px 14px var(--shadow);
 }
 
-.overlay {
+.overlayed {
     content: "";
     background-color: var(--black);
-    opacity: 0.3;
+    opacity: 0.4;
     width: 100%;
     height: 100%;
     position: fixed;
@@ -208,6 +235,7 @@ dialog {
     left: 0;
     right:0;
     bottom:0;
+    order : 10;
     z-index: 10;
 }
 .modal {
@@ -240,7 +268,7 @@ dialog {
     align-items: flex-start;
     flex-wrap: wrap;
     gap: 1rem;
-    height: 30rem;
+    max-height: 30rem;
     width: 70%;
     overflow-y: scroll;
     padding: 2.5rem 1rem;
@@ -299,34 +327,48 @@ dialog {
 	padding: 10px 2rem;
 }
 
-#submit-grey {
-    background-color: var(--grey);
-    border: none;
-    padding: .5rem;
+/*************************Add photo Modal**********************************/
+.add-photo-modal { 
+    order : 21;
+    display: flex; 
 }
 
-/*************************Add photo Modal**********************************/
-
 .add-img {
-    width: 26.25rem; 
+    width: 100%; 
     height: 10.55rem; 
     background-color: var(--blue-grey);
     display: flex; 
-    justify-content: center; 
+    justify-content: space-evenly; 
     align-items: center;
     flex-direction: column;
     margin-bottom: 2rem;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+#addPhoto { 
+    display:flex; 
+    flex-direction: column;
 }
 
-#addPhoto>img {
+.addedPhoto {
     height: 10.55rem; 
     aspect-ratio: 1 / 1;
 }
 .add-img>.material-symbols-outlined {
     font-size: 4.75rem; 
-    color: #b6c7c8;
+    color: var(--dark-blue-grey);
 }
 
+.add-img> label { 
+    background-color: var(--dark-blue-grey);
+    padding: 0.6rem 1.5rem;
+    border-radius: 60px;
+    color: var(--dark-blue);
+}
+.add-img> p { 
+    line-height: 20px; 
+    font-size: 10px;
+}
 #addPhoto input  {
 	height: 50px;
 	width: 25rem;
@@ -344,11 +386,17 @@ dialog {
     text-align: center;
     border-radius: 60px;
     color: white;
-    background-color: var(--grey);
+    background-color: var(--green);
     margin: 2em auto;
     width: 14rem;
     border: none;
     padding: 0.5rem 0rem;
+    height: 2rem;
+}
+#addPhoto input[type="submit"]:disabled {
+    background-color: var(--grey);
+    border: none;
+    padding: .5rem;
 }
 
 #categorie-listbox {

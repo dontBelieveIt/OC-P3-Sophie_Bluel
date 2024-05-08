@@ -17,6 +17,7 @@
 		<script type="module" src="assets/filter.js"></script>
 	</head>
 	<body>
+		<div class="edit-mode"><span class="material-symbols-outlined">edit_square</span> Mode édition</div>
 		<header>
 			<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 			<nav>
@@ -43,50 +44,10 @@
 			<section id="portfolio">
 				<div id="mesProjets">
 					<h2>Mes Projets</h2> <br>
-
-					<button hidden id="data-open-modal" class="mes-projets-btn">
-						<span class="material-symbols-outlined">edit_square</span> modifier
-					</button>
 				</div>
 
-				<!-- <div id="modalsAreHere"></div> -->
+				<div id="modalsAreHere"></div>
 				
-				<!-- main modal -->
-				<dialog hidden id="data-modal" class="modal">
-					<div class="modal-content">
-						<button id="data-close-modal" class="btn-close-modal"><span class="material-symbols-outlined">close</span></button>
-						<h1>Galerie photo</h1>
-						<div class="gallery-content"></div>
-						<hr>
-						<button id="openAddModal" class="dialog-btn btn-green btn">Ajouter une photo</button>
-					</div>
-				</dialog>
-
-				<!-- add photo modal -->
-				<dialog hidden id="addPhotoModal" class="modal">
-					<div class="add-photo-modal modal-content">
-						<button id="add-close-modal" class="btn-close-modal"><span class="material-symbols-outlined">close</span></button>
-						<button id="return-main-modal" class="btn-return"><span class="material-symbols-outlined">arrow_back</span></button>
-						<h1>Ajout photo</h1>
-						<form action="#" method="post" id="addPhoto">
-							<div id="addImg">
-								<!-- Dynamic : see "modal.js"-->
-							</div>
-							<label for="title">Titre</label><br>
-							<input type="text" name="title" id="title" autocomplete="off" requiered><br>
-							<label for ="categorie-listbox">Catégories</label><br>
-							<select name="categorie-listbox" id="categorie-listbox" autocomplete="off" requiered>
-								<option value="" ></option>
-								<option value="1">Objet</option>
-								<option value="2">Appartements</option>
-								<option value="3">Hôtels et Restaurants</option>
-							</select><br>
-							<hr>
-							<input type="submit" id="submit-grey" class="btn" value="Valider">
-						</form>
-					</div>
-				</dialog>
-
 				<div class="filter">
 					<button class="btn active all-btn"> Tous</button>
 					<button class="btn filter-btn objects-btn"> Objets</button>
@@ -100,7 +61,7 @@
 			<section id="contact">
 				<h2>Contact</h2>
 				<p>Vous avez un projet ? Discutons-en !</p>
-				<form action="#" method="post">
+				<form action="#">
 					<label for="name">Nom</label>
 					<input type="text" name="name" id="name">
 					<label for="email">Email</label>
