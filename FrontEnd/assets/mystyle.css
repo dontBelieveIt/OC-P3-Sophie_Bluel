@@ -269,7 +269,7 @@ dialog {
     flex-wrap: wrap;
     gap: 1rem;
     max-height: 30rem;
-    width: 70%;
+    width: 75%;
     overflow-y: scroll;
     padding: 2.5rem 1rem;
 }
@@ -352,7 +352,6 @@ dialog {
 
 .addedPhoto {
     height: 10.55rem; 
-    aspect-ratio: 1 / 1;
 }
 .add-img>.material-symbols-outlined {
     font-size: 4.75rem; 

@@ -19,6 +19,7 @@ function login() {
     const loginForm = document.querySelector("form");
     const errorMsgZone = document.getElementById("errorMsg"); 
     errorMsgZone.style.display = "none"; 
+    console.log("Login function has been called !");
     
     loginForm.addEventListener("submit", function (e) {
         e.preventDefault();
@@ -61,6 +62,7 @@ const loginForm = document.querySelector("form");
 loginForm.addEventListener("submit", function (e) {
     e.preventDefault();
     login();
+    console.log("loginFOrm add event listener has worked !"); 
 });
 
 /**********************************************login/logout button**********************************************************/
@@ -81,6 +83,7 @@ function logged() {
 
     const token = sessionStorage.getItem("authenticationToken");
     console.log(token);
+    console.log("logged function is being called !")
 
     if (token) {
         logoutBtn.style.display = "block"; 

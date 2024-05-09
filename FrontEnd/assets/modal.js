@@ -16,7 +16,7 @@ Contents:
 
 
 // Authentification token requiered for the modals to appear as well as the "Delete" and "Add Work" functions. 
-
+const token = sessionStorage.getItem("authenticationToken");  
 
 /**********************************************Open and close modal**********************************************************/
 // This function check, in the first place, the presence of the authentication token. If present, then the "edit" button is present. 
@@ -25,7 +25,7 @@ Contents:
 const editModeButton = document.getElementById("mesProjets");
 
 function editMode() {
-  const token = sessionStorage.getItem("authenticationToken");
+  console.log("edit mode function is active !")
 
   if (token) {
         // To open the Modal onclick
@@ -48,6 +48,7 @@ editMode();
 //***for the "Ajouter une photo", see the showAddModal() function 
 const modalLocation = document.getElementById("modalsAreHere"); 
 function showModals() {
+  console.log("show modals function has been called !")
 
   const overlay = document.createElement("div"); 
     overlay.classList.add("overlayed"); 
@@ -99,6 +100,7 @@ function showModals() {
   /**********************************************Generate photo***(main modal)*******************************************************/
   // Function for the photos to appear in the modal, (duplication from the generatePhoto(works) (function from the "assets/filter.js" file))
   function genererModalPhotos(){
+    console.log("function generer modal photo is turning !")
     // modalWorks = galleryContentDivFunction(); 
     // To fetch the ressources in the gallerie-content for the modal
     fetch('http://localhost:5678/api/works')
@@ -134,7 +136,7 @@ function showModals() {
   ******************************************************************************************************************************************/
   function deleteWork(e) {
     e.preventDefault();
-    const token = sessionStorage.getItem("authenticationToken");  
+    console.log("The delete work function is present !"); 
     const itemId = e.currentTarget.getAttribute("dataId");
 
     fetch(`http://localhost:5678/api/works/${itemId}`, {
@@ -147,7 +149,6 @@ function showModals() {
     .then(response => {
       if (response.ok) {
           alert("Delete successful !");
-          window.location.reload();
       }
     })
     .catch(error => {
@@ -161,6 +162,7 @@ function showModals() {
   *********************************************** add photo modal***(secondary modal)************************************************************************
   ******************************************************************************************************************************************/
   function addPhotoModal() {
+    console.log("add photo modal function is here!")
     const overlay2 = document.createElement("div"); 
     overlay2.classList.add("overlayed"); 
     const body = document.querySelector("body"); 
@@ -202,12 +204,11 @@ function showModals() {
     /****************************add form***(secondary modal)*********************************************/
     //Form  
     const newWorkForm = document.createElement("form"); 
-      newWorkForm.method = "post"; 
+      // newWorkForm.action= "#";
+      // newWorkForm.setAttribute("method", "post"); 
       newWorkForm.id = "addPhoto"; 
       addPhotoDiv.appendChild(newWorkForm); 
-      newWorkForm.addEventListener('change', () => { 
-        formSubmitBtnActive(); 
-      })
+      console.log(newWorkForm);
       
       //create element of the div for the adding file section
       const addImgFileDiv = document.createElement("div"); 
@@ -284,17 +285,21 @@ function showModals() {
       //Submit button 
       const formSubmitBtn = document.createElement("input"); 
         formSubmitBtn.setAttribute("type", "submit");
-        formSubmitBtn.id = "submit-grey"; 
+        // formSubmitBtn.id = "submit-grey"; 
         formSubmitBtn.classList.add("btn"); 
         formSubmitBtn.value = "Valider"; 
         formSubmitBtn.disabled = true;
         newWorkForm.appendChild(formSubmitBtn); 
-        formSubmitBtn.addEventListener("submit", (e) => {
-          e.preventDefault();
-          addImg();
-        })
-      
       /****************************addImgFile btn***(secondary modal)*********************************************/
+      newWorkForm.addEventListener('change', (e) => { 
+        e.preventDefault();
+        formSubmitBtnActive(); 
+        console.log("The add event listener on the formSubmitBtnActive function has ran !");
+      });
+      newWorkForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+      });
+
       //***Add event listener : for the add file section
       addImgFile.addEventListener('input', (e) => { 
         const imgFileLength = addImgFile.files[0].size; 
@@ -303,15 +308,17 @@ function showModals() {
             let fileSizeLimit = 32 //Megabits : because 4Mo = 32Mb. 
             if (fileSizeMb < fileSizeLimit) {
               console.log("Your image respect the size limit."); 
-              // addImgPicture.remove(); 
-              // addImgFileLabel.remove(); 
-              // addImgFile.remove();
-              // addImgP.remove();
-        
+              addImgPicture.remove(); 
+              addImgFileLabel.remove(); 
+              addImgFile.remove();
+              addImgP.remove();
+              addImgFileDiv.style.padding = "0";
+              addImgFileDiv.style.justifyContent = "flex-end";
+              
               const addPreviewImg = document.createElement("img"); 
                 addPreviewImg.classList.add("addedPhoto");
                 addPreviewImg.src = URL.createObjectURL(addImgFile.files[0]);
-                addPreviewImg.appendChild(addImgFileDiv);              
+                addImgFileDiv.appendChild(addPreviewImg);              
               return true
             } else { 
               alert("Image trop lourde. Veuillez choisir un autre fichier.")
@@ -323,47 +330,75 @@ function showModals() {
         };
       });
 
-    function formSubmitBtnActive() {
-      if (addImgFile.files[0] != undefined && formTitleInput.value != "") {
-        formSubmitBtn.disabled = false; 
-      }
-    }
+      function formSubmitBtnActive() {
+        if (addImgFile.files[0] != undefined && formTitleInput.value != "") {
+          formSubmitBtn.disabled = false; 
+          console.log("Submit button has been abled !");
+        }
+      };
+    // /**********************************************add photo function***API*******************************************************/
 
-  } //end of the addModalPhoto() function 
-
-
-  // /**********************************************add photo function***API*******************************************************/
-
-  function addImg() {
-    const token = sessionStorage.getItem("authenticationToken");
-    const formData = new FormData(); 
+    function addImg() {
+      console.log("The add Image function has been called !")
+      const formData = new FormData(); 
+      
+      let titleInput = formTitleInput.value; 
+      let categoryInput = formCatInput.value; 
+      let addedFile = addImgFile.files[0];
+      
+      formData.append("title", titleInput); 
+      formData.append("category", categoryInput); 
+      formData.append("image", addedFile);
     
-    formData.append("title", document.getElementById("title").value); 
-    formData.append("category", document.getElementById("categorie-listbox").value); 
-    formData.append("image", addImgFile.files[0]);
-  
-        fetch("http://localhost:5678/api/works", {
-            method: "POST",
-            headers: {'Authorization': `Bearer ${token}`},
-            body: formData
-        })
-  
-        .then(response => {
-            if (response.status !== 201) {
-                alert("Erreur : l'image n'a pas pu être ajoutée. Veuillez réessayer.");
-            } else {
-                return response.json();
-            }
-            
-        })
-        .then(authorization => {
-            const token = authorization.token;
-            sessionStorage.setItem("authenticationToken", token);
-            window.location.href = "index.html";
-        })
-        .catch(err => {
-            console.log(err);
-            alert("Une erreur s'est produite lors de l'importation du fichier'. Veuillez réessayer plus tard.");
-        });
-  };
+          fetch("http://localhost:5678/api/works", {
+              method: "POST",
+              headers: {'Authorization': `Bearer ${token}`},
+              body: formData
+          })
+    
+          .then(response => {
+              if (response.status === 200) {
+                  alert("Image ajoutée avec succès !");
+              } else {
+                  return response.json();
+              }
+              
+          })
+          .then(authorization => {
+              sessionStorage.setItem("authenticationToken", authorization.token);
+              window.location.href = "index.html";
+          })
+          .catch(err => {
+              console.log(err);
+              alert("Une erreur s'est produite lors de l'importation du fichier'. Veuillez réessayer plus tard.");
+          });
+    }
+    formSubmitBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      console.log("You clicked the submit button !");
+      addImg();
+
+      // const formData = new FormData(); 
+
+      // let titleInput = formTitleInput.value; 
+      // let categoryInput = formCatInput.value; 
+      // let addedFile = addImgFile.files[0];
+
+      
+      // formData.append("title", titleInput); 
+      // formData.append("category", categoryInput); 
+      // formData.append("image", addedFile);
+
+      // console.log(formData.data);
+      
+      // console.log(formData.title);
+      // console.log(formData.category);
+      // console.log(formData.image);
+
+      // console.log(formTitleInput.value);
+      // console.log(formCatInput.value);
+      // console.log(addImgFile.files[0]);
+      
+    })
+  } //end of the addModalPhoto() function 
 };

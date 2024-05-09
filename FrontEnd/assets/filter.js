@@ -24,11 +24,10 @@ let works = await response.json();
 const resp = await fetch('http://localhost:5678/api/categories');
 let category = await resp.json();
 
-
-
 /**********************************************generer photo galerie**********************************************************/
 const photoZone = document.querySelector(".gallery");
 function genererPhotos(works){
+    console.log("genener photo function has been called !"); 
     for (let i = 0; i < works.length; i++) {
 
         const workPhoto = works[i];
