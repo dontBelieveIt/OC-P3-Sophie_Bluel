@@ -2,7 +2,7 @@
  *Here is all element in regards with the Modal and its functions. 
 
 Contents: 
-  editMode function : Line ""
+  editMode function : Line 27 - 44
   Open and close modal :  Line "" 
   *Open modal & Close modal onlick function(); 
   Generate Photos : Line "" ;
@@ -13,20 +13,19 @@ Contents:
   For the gallery section of the index.html file and the filter button, see the filter.js file (../assets/filter.js); 
  */
 
-
-
 // Authentification token requiered for the modals to appear as well as the "Delete" and "Add Work" functions. 
 const token = sessionStorage.getItem("authenticationToken");  
-
+const response = await fetch('http://localhost:5678/api/works');
+let works = await response.json(); 
+console.log(works);
 /**********************************************Open and close modal**********************************************************/
 // This function check, in the first place, the presence of the authentication token. If present, then the "edit" button is present. 
 //***if not present, the edit button is hidden. 
 //***if the edit button is shown, then, once clicked, it opens the modal, where deleting and/or adding a new work is possible. 
 const editModeButton = document.getElementById("mesProjets");
-
+//if the edit button is present, the modals : main modale (delete function) and add photo modal (add work function) are both accessible.
 function editMode() {
   console.log("edit mode function is active !")
-
   if (token) {
     // To open the Modal onclick
     editModeButton.style.display = "flex";
@@ -45,14 +44,20 @@ function editMode() {
 editMode();
 
 //This is to create the main modal, where it is possible to delete photos, or go to the "ajouter une photo" modal
-//***for the "Ajouter une photo", see the showAddModal() function 
+/***The Show Modals function combine multiple other functions: 
+ * ***genereModal Function : to generate the works in the modal; 
+ * ***deleteWork function : to delete the work available on the main modal; 
+ * ***addPhoto modal : the second available modal
+ * ******functionSubmitBtnActive : To allow, on the second modal, the submit of the new work
+ * ******addImg : this funciton to add new work, is called when the submit button is clicked. 
+ */
 const modalLocation = document.getElementById("modalsAreHere"); 
+const body = document.querySelector("body");
 function showModals() {
   console.log("show modals function has been called !")
 
   const overlay = document.createElement("div"); 
-    overlay.classList.add("overlayed"); 
-    const body = document.querySelector("body"); 
+    overlay.classList.add("overlayed");  
     body.appendChild(overlay);
 
   //creation of the Main Modal and the event linked to button
@@ -72,6 +77,7 @@ function showModals() {
     buttonCloseModal.addEventListener("click", () => {
       console.log("I clicked on the close modal button !");
       mainModal.remove();
+      overlay.remove();
     });
   const galleryPhotoH1 = document.createElement("h1"); 
     galleryPhotoH1.innerText = `Galerie photo`; 
@@ -103,9 +109,9 @@ function showModals() {
     console.log("function generer modal photo is turning !")
     // modalWorks = galleryContentDivFunction(); 
     // To fetch the ressources in the gallerie-content for the modal
-    fetch('http://localhost:5678/api/works')
-      .then(resp => resp.json())
-      .then(works => {
+    // fetch('http://localhost:5678/api/works')
+    //   .then(resp => resp.json())
+    //   .then(works => {
       
         works.forEach(item => {
 
@@ -127,7 +133,7 @@ function showModals() {
           // Event listener for the delete work function 
           deleteButton.addEventListener("click", deleteWork);         
         })
-      })
+      // })
   }; //function genererModalPhotos() 
   genererModalPhotos();
 
@@ -152,17 +158,15 @@ function showModals() {
       })
       .then(response => {
         if (response.ok) {
-            alert("Delete successful !");
-            e.currentTarget.remove();
-            console.log(modalFigure);
+            genererPhotos(works);
+            genererModalPhotos(works)
         }
         if (response.status === 401) {
           tokenExpired();
         }
       })
       .catch(error => {
-        console.error(error);
-        reject(error);
+        console.log(error);
       });
     }//end of the if statement; 
   };  //function deleteWork(e)
@@ -191,6 +195,7 @@ function showModals() {
       addPhotoDiv.appendChild(btnCloseAddModal); 
       btnCloseAddModal.addEventListener("click", () => {
         dialogAddPhoto.remove(); 
+        overlay2.remove();
       }) 
     const btnBackMainModal = document.createElement("button"); 
       btnBackMainModal.id = "return-main-modal"; 
@@ -354,27 +359,32 @@ function showModals() {
         console.log("Token expired, reconnect again! ");
       } else { 
         console.log("The add Image function has been called !")
-      const formData = new FormData(); 
-      
-      let titleInput = formTitleInput.value; 
-      let categoryInput = formCatInput.value; 
-      let addedFile = addImgFile.files[0];
-      
-      formData.append("title", titleInput); 
-      formData.append("category", categoryInput); 
-      formData.append("image", addedFile);
-    
+        const dialogModal = document.querySelector("dialog");
+        dialogModal.classList.add("loading"); 
+        formSubmitBtn.disabled = true; 
+
+        const formData = new FormData(); 
+          let titleInput = formTitleInput.value; 
+          let categoryInput = formCatInput.value; 
+          let addedFile = addImgFile.files[0];
+        formData.append("title", titleInput); 
+        formData.append("category", categoryInput); 
+        formData.append("image", addedFile);
           fetch("http://localhost:5678/api/works", {
               method: "POST",
               headers: {'Authorization': `Bearer ${token}`},
               body: formData
           })
-    
           .then(response => {
               if (response.ok) {
-                  alert("Image ajoutée avec succès !");
+                alert("Image ajoutée avec succès !");
+                dialogModal.classList.remove("loading");
+                overlay2.remove();
+                dialogAddPhoto.remove(); 
+                genererModalPhotos(works);
+                genererPhotos(works);
               } else {
-                  return response.json();
+                return response.json();
               }
           })
           .then(authorization => {
@@ -383,7 +393,6 @@ function showModals() {
           })
           .catch(err => {
               console.log(err);
-              alert("Une erreur s'est produite lors de l'importation du fichier'. Veuillez réessayer plus tard.");
           });
       }//end of the if(token) treat
     };

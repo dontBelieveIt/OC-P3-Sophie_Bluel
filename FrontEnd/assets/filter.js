@@ -14,9 +14,6 @@ Contents:
   For the modals gestions and their functions, go see the userLogin.js file (../assets/modal.js); 
  */
 
-
-
-
 // Get for works from backend
 const response = await fetch('http://localhost:5678/api/works');
 let works = await response.json(); 
@@ -34,9 +31,9 @@ function genererPhotos(works){
         const figurePhotos = document.createElement("figure");
         const photoUrl = document.createElement("img");
         photoUrl.src = workPhoto.imageUrl;
+        photoUrl.alt = workPhoto.title;
         const photoTitle = document.createElement("figcaption");
         const photoCaption = document.createElement("p"); 
-        const photoCaptionContent = ""; 
         photoCaption.innerText = workPhoto.title;
         
         photoZone.appendChild(figurePhotos);
