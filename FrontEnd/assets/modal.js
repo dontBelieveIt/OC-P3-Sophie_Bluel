@@ -28,7 +28,7 @@ function editMode() {
   console.log("edit mode function is active !")
 
   if (token) {
-        // To open the Modal onclick
+    // To open the Modal onclick
     editModeButton.style.display = "flex";
     const openModal = document.createElement("button"); 
       openModal.id = "data-open-modal"; 
@@ -135,27 +135,36 @@ function showModals() {
   *********************************************** delete photo (main Modal)***************************************************************************
   ******************************************************************************************************************************************/
   function deleteWork(e) {
-    e.preventDefault();
-    console.log("The delete work function is present !"); 
-    const itemId = e.currentTarget.getAttribute("dataId");
+    if (token === undefined || token === null) {
+      tokenExpired(); 
+      console.log("Token expired, reconnect again! ");
+    } else { 
+      e.preventDefault();
+      console.log("The delete work function is present !"); 
+      const itemId = e.currentTarget.getAttribute("dataId");
 
-    fetch(`http://localhost:5678/api/works/${itemId}`, {
-      method: 'DELETE',
-      headers: { 
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      } 
-    })
-    .then(response => {
-      if (response.ok) {
-          alert("Delete successful !");
-      }
-    })
-    .catch(error => {
-      console.error(error);
-      alert('Une erreur s\'est produite lors de la suppression du travail');
-      reject(error);
-    });
+      fetch(`http://localhost:5678/api/works/${itemId}`, {
+        method: 'DELETE',
+        headers: { 
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        } 
+      })
+      .then(response => {
+        if (response.ok) {
+            alert("Delete successful !");
+            e.currentTarget.remove();
+            console.log(modalFigure);
+        }
+        if (response.status === 401) {
+          tokenExpired();
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        reject(error);
+      });
+    }//end of the if statement; 
   };  //function deleteWork(e)
 
   /******************************************************************************************************************************************
@@ -339,7 +348,12 @@ function showModals() {
     // /**********************************************add photo function***API*******************************************************/
 
     function addImg() {
-      console.log("The add Image function has been called !")
+
+      if (token === undefined || token === null) {
+        tokenExpired(); 
+        console.log("Token expired, reconnect again! ");
+      } else { 
+        console.log("The add Image function has been called !")
       const formData = new FormData(); 
       
       let titleInput = formTitleInput.value; 
@@ -357,12 +371,11 @@ function showModals() {
           })
     
           .then(response => {
-              if (response.status === 200) {
+              if (response.ok) {
                   alert("Image ajoutée avec succès !");
               } else {
                   return response.json();
               }
-              
           })
           .then(authorization => {
               sessionStorage.setItem("authenticationToken", authorization.token);
@@ -372,33 +385,17 @@ function showModals() {
               console.log(err);
               alert("Une erreur s'est produite lors de l'importation du fichier'. Veuillez réessayer plus tard.");
           });
-    }
+      }//end of the if(token) treat
+    };
     formSubmitBtn.addEventListener('click', (e) => {
       e.preventDefault();
       console.log("You clicked the submit button !");
       addImg();
-
-      // const formData = new FormData(); 
-
-      // let titleInput = formTitleInput.value; 
-      // let categoryInput = formCatInput.value; 
-      // let addedFile = addImgFile.files[0];
-
-      
-      // formData.append("title", titleInput); 
-      // formData.append("category", categoryInput); 
-      // formData.append("image", addedFile);
-
-      // console.log(formData.data);
-      
-      // console.log(formData.title);
-      // console.log(formData.category);
-      // console.log(formData.image);
-
-      // console.log(formTitleInput.value);
-      // console.log(formCatInput.value);
-      // console.log(addImgFile.files[0]);
-      
-    })
+    });
   } //end of the addModalPhoto() function 
+};//end of function 
+
+function tokenExpired() {
+  alert("Error when logged in. Login again before trying."); 
+  window.location.href = "login.html";
 };

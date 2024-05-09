@@ -15,13 +15,13 @@
 //Use the api to search whether the user is registered or not. 
 //*** IF the user is registered, produce a authentication token to access the edition mode 
 //*** if the user is not registered, or if the informations provideed (email/mdp) are not correct, return an error message 
+const loginForm = document.querySelector("form");
 function login() {
-    const loginForm = document.querySelector("form");
     const errorMsgZone = document.getElementById("errorMsg"); 
     errorMsgZone.style.display = "none"; 
     console.log("Login function has been called !");
     
-    loginForm.addEventListener("submit", function (e) {
+    loginForm.addEventListener('submit', function (e) {
         e.preventDefault();
         
         const user = {
@@ -58,7 +58,6 @@ function login() {
 }
 
 /*Add Event Listener for the Submit button from the form present  on the login.html file*/
-const loginForm = document.querySelector("form");
 loginForm.addEventListener("submit", function (e) {
     e.preventDefault();
     login();
