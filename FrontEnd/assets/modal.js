@@ -1,5 +1,5 @@
-/**
- *Here is all element in regards with the Modal and its functions. 
+import {updatePhoto, galleryContent, data } from "../assets/filter.js";
+/** *Here is all element in regards with the Modal and its functions. 
 
 Contents: 
   editMode function : Line 27 - 44
@@ -15,9 +15,6 @@ Contents:
 
 // Authentification token requiered for the modals to appear as well as the "Delete" and "Add Work" functions. 
 const token = sessionStorage.getItem("authenticationToken");  
-const response = await fetch('http://localhost:5678/api/works');
-let works = await response.json(); 
-console.log(works);
 /**********************************************Open and close modal**********************************************************/
 // This function check, in the first place, the presence of the authentication token. If present, then the "edit" button is present. 
 //***if not present, the edit button is hidden. 
@@ -107,11 +104,10 @@ function showModals() {
   // Function for the photos to appear in the modal, (duplication from the generatePhoto(works) (function from the "assets/filter.js" file))
   function genererModalPhotos(){
     console.log("function generer modal photo is turning !")
-    // modalWorks = galleryContentDivFunction(); 
-    // To fetch the ressources in the gallerie-content for the modal
-    // fetch('http://localhost:5678/api/works')
-    //   .then(resp => resp.json())
-    //   .then(works => {
+    //To fetch the ressources in the gallerie-content for the modal
+    fetch('http://localhost:5678/api/works')
+      .then(resp => resp.json())
+      .then(works => {
       
         works.forEach(item => {
 
@@ -133,7 +129,7 @@ function showModals() {
           // Event listener for the delete work function 
           deleteButton.addEventListener("click", deleteWork);         
         })
-      // })
+      })
   }; //function genererModalPhotos() 
   genererModalPhotos();
 
@@ -158,8 +154,13 @@ function showModals() {
       })
       .then(response => {
         if (response.ok) {
-            genererPhotos(works);
-            genererModalPhotos(works)
+            console.log("Gallery Content has been suppressed !");
+          galleryContent.innerHTML = ""; 
+           console.log("Gallery Content Div has been suppressed !");
+          galleryContentDiv.innerHTML = ""; 
+          updatePhoto(data);
+          genererModalPhotos(data); 
+          console.log("Content has been updated !");
         }
         if (response.status === 401) {
           tokenExpired();
@@ -293,8 +294,10 @@ function showModals() {
           option3.text = "Hôtels et Restaurants";
           option3.value = 3; 
           formCatInput.add(option3);
-      const breakTag3b = document.createElement("br"); 
-      newWorkForm.appendChild(breakTag3b);
+        const breakTag3b = document.createElement("br"); 
+          newWorkForm.appendChild(breakTag3b);
+        const addPhotoModalHr = document.createElement("hr"); 
+          newWorkForm.appendChild(addPhotoModalHr);
   
       //Submit button 
       const formSubmitBtn = document.createElement("input"); 
@@ -380,9 +383,15 @@ function showModals() {
                 alert("Image ajoutée avec succès !");
                 dialogModal.classList.remove("loading");
                 overlay2.remove();
-                dialogAddPhoto.remove(); 
-                genererModalPhotos(works);
-                genererPhotos(works);
+                dialogAddPhoto.remove();
+                console.log("Gallery Content has been suppressed !");
+                galleryContent.innerHTML = ""; 
+                console.log("Gallery Content Div has been suppressed !");
+                galleryContentDiv.innerHTML = "";
+                showModals();
+                updatePhoto(data) 
+                genererModalPhotos(data);
+                console.log("Content has been updated !");
               } else {
                 return response.json();
               }

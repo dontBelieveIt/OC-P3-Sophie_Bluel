@@ -105,3 +105,5 @@ hotelRestoFilterBtn.addEventListener("click", () => {
     const filtered = works.filter((x) => x.categoryId === 3);
     genererPhotos(filtered); 
 });
+
+export { genererPhotos as updatePhoto, photoZone as galleryContent, works as data };

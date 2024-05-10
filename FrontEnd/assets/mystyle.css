@@ -211,6 +211,8 @@ footer {
     width: 12rem;
     border: none;
 	padding: 10px 2rem;
+    position: absolute;
+    bottom : 3rem;
 }
 
 
@@ -250,18 +252,23 @@ dialog {
     justify-content: space-between;
     align-items: center;
 	text-align: center;
+    padding: 2rem;
 }
 .modal-content> h1	{
 	font-family: 'Work Sans';	
-	margin-bottom: 10px;
-	font-size: 1.1rem;
+	margin-bottom: 30.5px;
+	font-size: 26px;
+    line-height: 30.5px;
 	text-decoration: none;
 	color: unset;
 	font-weight: 400;
 }
-.modal-content hr {
-    width: 70%;
+hr {
+    width: 26.25rem;
+    position: absolute;
+    bottom: 8rem;
 }
+
 .gallery-content { 
     display: flex;
     justify-content: flex-start;
@@ -269,19 +276,15 @@ dialog {
     flex-wrap: wrap;
     gap: 1rem;
     max-height: 30rem;
-    width: 75%;
+    width: 80%;
     overflow-y: scroll;
     padding: 2.5rem 1rem;
 }
+
 .gallery-content figure, .gallery-content img {
     width: 4.75rem; 
 	aspect-ratio: 3 / 4;
 }
-/* 
-.gallery-content img { 
-	width: 4.75rem; 
-	aspect-ratio: 3 / 4;
-} */
 
 .gallery-content:hover img:not(:hover) {
     opacity: 0.4;
@@ -412,6 +415,9 @@ dialog {
     text-align: left;
 }
 
+#addPhoto> ht {
+    width: 100%;
+}
 .loading {
     cursor: wait; 
     filter: blur(2px);
