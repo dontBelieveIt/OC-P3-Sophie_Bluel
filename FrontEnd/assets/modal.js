@@ -158,8 +158,8 @@ function showModals() {
           galleryContent.innerHTML = ""; 
            console.log("Gallery Content Div has been suppressed !");
           galleryContentDiv.innerHTML = ""; 
-          updatePhoto(data);
           genererModalPhotos(data); 
+          updatePhoto(data);
           console.log("Content has been updated !");
         }
         if (response.status === 401) {
@@ -389,8 +389,8 @@ function showModals() {
                 console.log("Gallery Content Div has been suppressed !");
                 galleryContentDiv.innerHTML = "";
                 showModals();
-                updatePhoto(data) 
                 genererModalPhotos(data);
+                updatePhoto(data); 
                 console.log("Content has been updated !");
               } else {
                 return response.json();
