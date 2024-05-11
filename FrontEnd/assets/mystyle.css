@@ -99,10 +99,7 @@ button {
 }
 
 #login input[type="submit"] {
-	width: 50%;
-}
-#login input[type="submit"]:hover { 
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5);
+	width: 11.19rem;
 }
 
 #mdp {
@@ -161,6 +158,11 @@ footer {
     border: 1px solid var(--green);
 }
 
+.figureImg>img {
+   max-height: 26rem;
+   max-width: 20rem;
+}
+
 /***********************************************************MODAL*********************************************************/
 #mesProjets { 
 	display: flex;
@@ -211,10 +213,11 @@ footer {
     width: 12rem;
     border: none;
 	padding: 10px 2rem;
+}
+.btn-modal {
     position: absolute;
     bottom : 3rem;
 }
-
 
 dialog {
 	width: 21rem; 

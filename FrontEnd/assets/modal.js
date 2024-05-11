@@ -85,7 +85,7 @@ function showModals() {
   const modalHr = document.createElement("hr"); 
     modalContent.appendChild(modalHr);
   const buttonOpenAddModal = document.createElement("button"); 
-    buttonOpenAddModal.classList.add("btn", "btn-green"); 
+    buttonOpenAddModal.classList.add("btn", "btn-green", "btn-modal"); 
     buttonOpenAddModal.id = "openAddModal";
     buttonOpenAddModal.innerText = `Ajouter une photo`; 
     modalContent.appendChild(buttonOpenAddModal);
@@ -154,11 +154,17 @@ function showModals() {
       })
       .then(response => {
         if (response.ok) {
-            console.log("Gallery Content has been suppressed !");
           galleryContent.innerHTML = ""; 
-           console.log("Gallery Content Div has been suppressed !");
-          galleryContentDiv.innerHTML = ""; 
+          console.log("Gallery Content has been suppressed !");
+          galleryContentDiv.innerHTML = "";  
+          console.log("Gallery Content Div has been suppressed !");
           genererModalPhotos(data); 
+          updatePhoto(data);
+          galleryContent.innerHTML = ""; 
+          console.log("Gallery Content has been suppressed !");
+          updatePhoto(data);
+          galleryContent.innerHTML = ""; 
+          console.log("Gallery Content has been suppressed !");
           updatePhoto(data);
           console.log("Content has been updated !");
         }
@@ -384,13 +390,18 @@ function showModals() {
                 dialogModal.classList.remove("loading");
                 overlay2.remove();
                 dialogAddPhoto.remove();
-                console.log("Gallery Content has been suppressed !");
                 galleryContent.innerHTML = ""; 
+                console.log("Gallery Content has been suppressed !");
+                galleryContentDiv.innerHTML = "";  
                 console.log("Gallery Content Div has been suppressed !");
-                galleryContentDiv.innerHTML = "";
-                showModals();
-                genererModalPhotos(data);
-                updatePhoto(data); 
+                genererModalPhotos(data); 
+                updatePhoto(data);
+                galleryContent.innerHTML = ""; 
+                console.log("Gallery Content has been suppressed !");
+                updatePhoto(data);
+                galleryContent.innerHTML = ""; 
+                console.log("Gallery Content has been suppressed !");
+                updatePhoto(data);
                 console.log("Content has been updated !");
               } else {
                 return response.json();
@@ -400,8 +411,8 @@ function showModals() {
               sessionStorage.setItem("authenticationToken", authorization.token);
               window.location.href = "index.html";
           })
-          .catch(err => {
-              console.log(err);
+          .catch(error => {
+              console.log(error);
           });
       }//end of the if(token) treat
     };

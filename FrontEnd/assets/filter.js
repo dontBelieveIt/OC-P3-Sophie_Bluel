@@ -24,11 +24,12 @@ let category = await resp.json();
 /**********************************************generer photo galerie**********************************************************/
 const photoZone = document.querySelector(".gallery");
 function genererPhotos(works){
-    console.log("genener photo function has been called !"); 
+    console.log("genener photo/update photo function has been called !"); 
     for (let i = 0; i < works.length; i++) {
 
         const workPhoto = works[i];
         const figurePhotos = document.createElement("figure");
+            figurePhotos.classList.add("figureImg");
         const photoUrl = document.createElement("img");
         photoUrl.src = workPhoto.imageUrl;
         photoUrl.alt = workPhoto.title;
