@@ -3,6 +3,7 @@
 **********************************************************************************************************************/
 :root  {
     --green : #1D6154;
+    --orange : #93532F;
     --grey : #A7A7A7;
     --blue-grey : #E8F1F6;
     --dark-blue : #306685; 
@@ -25,9 +26,12 @@ a {
 a:hover {
     color:var(--green); 
 }
+a:active { 
+    color: var(--orange);
+}
 
 b {
-	font-weight: bolder;
+	font-weight: 700;
 }
 button {
     cursor : pointer;
@@ -55,8 +59,13 @@ button {
     align-items: center;
 }
 
+#introduction p { 
+    width: 25.25rem;
+}
 
-/***********************************************************Login page*********************************************************/
+/***********************************************************Login page*********************************************************
+* Mise en forme du formulaire de connextion (adresse-mail, mot de passe, bouton de connexion)
+*******************************************************************************************************************************/
 #login {
 	display: flex;  
 	flex-direction: column;
@@ -67,9 +76,6 @@ button {
 	margin: auto; 
 }
 
-#login > * {
-	text-align: center;
-}
 #login h2{
 	margin-bottom: 0;
 }
@@ -159,8 +165,8 @@ footer {
 }
 
 .figureImg>img {
-   max-height: 26rem;
    max-width: 20rem;
+   aspect-ratio: 304 / 407;
 }
 
 /***********************************************************MODAL*********************************************************/
@@ -169,6 +175,7 @@ footer {
     text-align: center;
     justify-content: center;
     align-items: baseline;
+    padding: 2.2rem 0 2.2rem 0 ;
 }
 .mes-projets-btn {
 	background: transparent;
@@ -178,6 +185,7 @@ footer {
 	padding: 10px 2rem;
     display: flex;
     align-items: center;
+    align-content: center;
     animation: ease-out;
     animation-duration: 300ms;
 }
@@ -188,6 +196,7 @@ footer {
     font-size: 0.7rem;
     text-align: center;
     border-radius: 60px;
+    
 }
 
 .btn-close-modal {
@@ -206,7 +215,7 @@ footer {
 	'opsz' 20
   }
   
-.btn-green {
+.green {
     color: white;
     background-color: var(--green);	
     margin: 2em auto;
@@ -290,7 +299,7 @@ hr {
 }
 
 .gallery-content:hover img:not(:hover) {
-    opacity: 0.4;
+    opacity: 0.5;
 }
 .delete-btn {
     width: 1.5rem;
@@ -418,8 +427,8 @@ hr {
     text-align: left;
 }
 
-#addPhoto> ht {
-    width: 100%;
+#addPhoto> hr {
+    width: 420px;
 }
 .loading {
     cursor: wait; 

@@ -14,36 +14,42 @@ Contents:
   For the modals gestions and their functions, go see the userLogin.js file (../assets/modal.js); 
  */
 
-// Get for works from backend
-const response = await fetch('http://localhost:5678/api/works');
-let works = await response.json(); 
 // Get for categories (filtered Work) from backend
 const resp = await fetch('http://localhost:5678/api/categories');
 let category = await resp.json();
-
 /**********************************************generer photo galerie**********************************************************/
 const photoZone = document.querySelector(".gallery");
-function genererPhotos(works){
+function genererPhotos(){
     console.log("genener photo/update photo function has been called !"); 
-    for (let i = 0; i < works.length; i++) {
+    
+    fetch('http://localhost:5678/api/works')
+      .then(response => response.json())
+      .then(works => {
+      
+        works.forEach(image => {
 
-        const workPhoto = works[i];
+        // const workPhoto = image[i];
         const figurePhotos = document.createElement("figure");
             figurePhotos.classList.add("figureImg");
         const photoUrl = document.createElement("img");
-        photoUrl.src = workPhoto.imageUrl;
-        photoUrl.alt = workPhoto.title;
+            photoUrl.src = image.imageUrl;
+            photoUrl.alt = image.title;
+            photoUrl.setAttribute("loading", "lazy");
         const photoTitle = document.createElement("figcaption");
         const photoCaption = document.createElement("p"); 
-        photoCaption.innerText = workPhoto.title;
+            photoCaption.innerText = image.title;
         
         photoZone.appendChild(figurePhotos);
         figurePhotos.appendChild(photoUrl); 
         figurePhotos.appendChild(photoTitle); 
         photoTitle.appendChild(photoCaption);  
-     }
+        })
+        })
 }
-genererPhotos(works);
+genererPhotos();
+// window.onload = () => { 
+//     genererPhotos(); 
+// };
 
 /********************************************************************************************************************************
  ********************************FILTERED FUNCTION AND EVENTS LISTENER***********************************************************
@@ -107,4 +113,5 @@ hotelRestoFilterBtn.addEventListener("click", () => {
     genererPhotos(filtered); 
 });
 
-export { genererPhotos as updatePhoto, photoZone as galleryContent, works as data };
+//export those functions and variables to the modal.js file
+export { genererPhotos as updatePhoto, photoZone as galleryContent};

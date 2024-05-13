@@ -1,4 +1,4 @@
-import {updatePhoto, galleryContent, data } from "../assets/filter.js";
+import {updatePhoto, galleryContent} from "../assets/filter.js";
 /** *Here is all element in regards with the Modal and its functions. 
 
 Contents: 
@@ -20,16 +20,20 @@ const token = sessionStorage.getItem("authenticationToken");
 //***if not present, the edit button is hidden. 
 //***if the edit button is shown, then, once clicked, it opens the modal, where deleting and/or adding a new work is possible. 
 const editModeButton = document.getElementById("mesProjets");
+const filterDiv = document.querySelector(".filter");
 //if the edit button is present, the modals : main modale (delete function) and add photo modal (add work function) are both accessible.
 function editMode() {
   console.log("edit mode function is active !")
   if (token) {
+    // To display the fitler buttons, which are not active on the edit mode;
+    filterDiv.classList.remove("filter");
+    filterDiv.style.display = "none"; 
     // To open the Modal onclick
     editModeButton.style.display = "flex";
     const openModal = document.createElement("button"); 
       openModal.id = "data-open-modal"; 
       openModal.classList.add("mes-projets-btn"); 
-      openModal.innerHTML = `<span class="material-symbols-outlined">edit_square</span>`+` modifier`;
+      openModal.innerHTML = `<span class="material-symbols-outlined">edit_square</span>`+ `  ` + `modifier`;
       editModeButton.appendChild(openModal);
     
     openModal.onclick = function() {
@@ -37,6 +41,7 @@ function editMode() {
       showModals();
     };
   };
+  filterDiv.classList.add("filter");
 };
 editMode();
 
@@ -51,7 +56,7 @@ editMode();
 const modalLocation = document.getElementById("modalsAreHere"); 
 const body = document.querySelector("body");
 function showModals() {
-  console.log("show modals function has been called !")
+  console.log("show modals function has been called !");
 
   const overlay = document.createElement("div"); 
     overlay.classList.add("overlayed");  
@@ -85,7 +90,7 @@ function showModals() {
   const modalHr = document.createElement("hr"); 
     modalContent.appendChild(modalHr);
   const buttonOpenAddModal = document.createElement("button"); 
-    buttonOpenAddModal.classList.add("btn", "btn-green", "btn-modal"); 
+    buttonOpenAddModal.classList.add("btn", "green", "btn-modal"); 
     buttonOpenAddModal.id = "openAddModal";
     buttonOpenAddModal.innerText = `Ajouter une photo`; 
     modalContent.appendChild(buttonOpenAddModal);
@@ -155,18 +160,9 @@ function showModals() {
       .then(response => {
         if (response.ok) {
           galleryContent.innerHTML = ""; 
-          console.log("Gallery Content has been suppressed !");
           galleryContentDiv.innerHTML = "";  
-          console.log("Gallery Content Div has been suppressed !");
-          genererModalPhotos(data); 
-          updatePhoto(data);
-          galleryContent.innerHTML = ""; 
-          console.log("Gallery Content has been suppressed !");
-          updatePhoto(data);
-          galleryContent.innerHTML = ""; 
-          console.log("Gallery Content has been suppressed !");
-          updatePhoto(data);
-          console.log("Content has been updated !");
+          genererModalPhotos(); 
+          updatePhoto();
         }
         if (response.status === 401) {
           tokenExpired();
@@ -386,23 +382,16 @@ function showModals() {
           })
           .then(response => {
               if (response.ok) {
+                galleryContent.innerHTML = ""; 
                 alert("Image ajoutée avec succès !");
                 dialogModal.classList.remove("loading");
                 overlay2.remove();
                 dialogAddPhoto.remove();
-                galleryContent.innerHTML = ""; 
-                console.log("Gallery Content has been suppressed !");
                 galleryContentDiv.innerHTML = "";  
-                console.log("Gallery Content Div has been suppressed !");
-                genererModalPhotos(data); 
-                updatePhoto(data);
-                galleryContent.innerHTML = ""; 
-                console.log("Gallery Content has been suppressed !");
-                updatePhoto(data);
-                galleryContent.innerHTML = ""; 
-                console.log("Gallery Content has been suppressed !");
-                updatePhoto(data);
-                console.log("Content has been updated !");
+                genererModalPhotos(); 
+                updatePhoto();
+                // const myTimeOut = setTimeout(updatePhoto(data), 10000);
+                // myTimeOut(myTimeOut);
               } else {
                 return response.json();
               }
