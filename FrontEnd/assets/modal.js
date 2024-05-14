@@ -2,7 +2,7 @@ import {updatePhoto, galleryContent} from "../assets/filter.js";
 /** *Here is all element in regards with the Modal and its functions. 
 
 Contents: 
-  editMode function : Line 27 - 44
+  editMode function : Line 26 - 44
   Open and close modal :  Line "" 
   *Open modal & Close modal onlick function(); 
   Generate Photos : Line "" ;
@@ -21,13 +21,16 @@ const token = sessionStorage.getItem("authenticationToken");
 //***if the edit button is shown, then, once clicked, it opens the modal, where deleting and/or adding a new work is possible. 
 const editModeButton = document.getElementById("mesProjets");
 const filterDiv = document.querySelector(".filter");
+const headerEdit = document.querySelector("header"); 
 //if the edit button is present, the modals : main modale (delete function) and add photo modal (add work function) are both accessible.
 function editMode() {
   console.log("edit mode function is active !")
   if (token) {
-    // To display the fitler buttons, which are not active on the edit mode;
+    // To remove the fitler buttons, which are not active on the edit mode;
     filterDiv.classList.remove("filter");
     filterDiv.style.display = "none"; 
+    //To modify the header in edit mode 
+    headerEdit.style.margin = "6rem 0 4rem 0";
     // To open the Modal onclick
     editModeButton.style.display = "flex";
     const openModal = document.createElement("button"); 
@@ -35,13 +38,15 @@ function editMode() {
       openModal.classList.add("mes-projets-btn"); 
       openModal.innerHTML = `<span class="material-symbols-outlined">edit_square</span>`+ `  ` + `modifier`;
       editModeButton.appendChild(openModal);
-    
+    //call the function to show the modal (100% javascript code, see below : showModals() and addPhotoModal())
     openModal.onclick = function() {
       console.log("I clicked !");
       showModals();
     };
-  };
-  filterDiv.classList.add("filter");
+  } else { 
+    filterDiv.classList.add("filter");
+    headerEdit.style.margin = "50px 0";
+  }
 };
 editMode();
 
@@ -53,11 +58,14 @@ editMode();
  * ******functionSubmitBtnActive : To allow, on the second modal, the submit of the new work
  * ******addImg : this funciton to add new work, is called when the submit button is clicked. 
  */
+//modals appears from the <div id="ModalsAreHere"> from the index.html file
 const modalLocation = document.getElementById("modalsAreHere"); 
 const body = document.querySelector("body");
+//allow the modal to be built
 function showModals() {
   console.log("show modals function has been called !");
 
+  //the black background behind the modal
   const overlay = document.createElement("div"); 
     overlay.classList.add("overlayed");  
     body.appendChild(overlay);
@@ -80,7 +88,7 @@ function showModals() {
       console.log("I clicked on the close modal button !");
       mainModal.remove();
       overlay.remove();
-    });
+    }); //end of the buttonCloseModal Event listener
   const galleryPhotoH1 = document.createElement("h1"); 
     galleryPhotoH1.innerText = `Galerie photo`; 
     modalContent.appendChild(galleryPhotoH1);
@@ -100,10 +108,11 @@ function showModals() {
       overlay.remove();
       addPhotoModal(); 
     });
+    //when clicked, the overlay allow the modals to be cloded
     overlay.addEventListener("click", () => {
       mainModal.remove();
       overlay.remove()
-    })
+    })//end of the overlay addEventListener
 
   /**********************************************Generate photo***(main modal)*******************************************************/
   // Function for the photos to appear in the modal, (duplication from the generatePhoto(works) (function from the "assets/filter.js" file))
@@ -136,19 +145,19 @@ function showModals() {
         })
       })
   }; //function genererModalPhotos() 
-  genererModalPhotos();
+  genererModalPhotos();//still in the showModals function
 
   /******************************************************************************************************************************************
   *********************************************** delete photo (main Modal)***************************************************************************
   ******************************************************************************************************************************************/
   function deleteWork(e) {
     if (token === undefined || token === null) {
-      tokenExpired(); 
+      tokenExpired(); //this function appears in case of an authentication problem, to avoid a error 401 whislt edit mode is still on
       console.log("Token expired, reconnect again! ");
     } else { 
-      e.preventDefault();
+      e.preventDefault(); //prevent the page from reloading
       console.log("The delete work function is present !"); 
-      const itemId = e.currentTarget.getAttribute("dataId");
+      const itemId = e.currentTarget.getAttribute("dataId"); //get the id of the work in question
 
       fetch(`http://localhost:5678/api/works/${itemId}`, {
         method: 'DELETE',
@@ -165,7 +174,7 @@ function showModals() {
           updatePhoto();
         }
         if (response.status === 401) {
-          tokenExpired();
+          tokenExpired(); //the user is asked to try after login again
         }
       })
       .catch(error => {
@@ -173,12 +182,14 @@ function showModals() {
       });
     }//end of the if statement; 
   };  //function deleteWork(e)
+  //still in the showModals function
 
   /******************************************************************************************************************************************
   *********************************************** add photo modal***(secondary modal)************************************************************************
   ******************************************************************************************************************************************/
   function addPhotoModal() {
     console.log("add photo modal function is here!")
+    //create the overlay for the second modal
     const overlay2 = document.createElement("div"); 
     overlay2.classList.add("overlayed"); 
     const body = document.querySelector("body"); 
@@ -187,15 +198,12 @@ function showModals() {
     const dialogAddPhoto = document.createElement("dialog"); 
       dialogAddPhoto.classList.add("modal"); 
       dialogAddPhoto.style.display = "block"; 
-      modalLocation.appendChild(dialogAddPhoto); 
     const addPhotoDiv = document.createElement("div"); 
       addPhotoDiv.classList.add("add-photo-modal", "modal-content"); 
-      dialogAddPhoto.appendChild(addPhotoDiv); 
     const btnCloseAddModal = document.createElement("button"); 
       btnCloseAddModal.id = "add-close-modal"; 
       btnCloseAddModal.classList.add("btn-close-modal"); 
       btnCloseAddModal.innerHTML = `<span class="material-symbols-outlined">close</span>`; 
-      addPhotoDiv.appendChild(btnCloseAddModal); 
       btnCloseAddModal.addEventListener("click", () => {
         dialogAddPhoto.remove(); 
         overlay2.remove();
@@ -204,43 +212,35 @@ function showModals() {
       btnBackMainModal.id = "return-main-modal"; 
       btnBackMainModal.classList.add("btn-return"); 
       btnBackMainModal.innerHTML = `<span class="material-symbols-outlined">arrow_back</span></button>`;
-      addPhotoDiv.appendChild(btnBackMainModal); 
+      //close the second modal and goes back to the first
       btnBackMainModal.addEventListener("click", () => {
         dialogAddPhoto.remove(); 
         showModals(); 
       } )
     const titleAddModal = document.createElement("h1"); 
       titleAddModal.innerText = "Ajout photo"; 
-      addPhotoDiv.appendChild(titleAddModal); 
-    
       overlay2.addEventListener("click", () => {
         dialogAddPhoto.remove();
         overlay2.remove()
       })
-    
     /****************************add form***(secondary modal)*********************************************/
+    //still in the addPhotoModal Function
     //Form  
     const newWorkForm = document.createElement("form"); 
-      // newWorkForm.action= "#";
-      // newWorkForm.setAttribute("method", "post"); 
       newWorkForm.id = "addPhoto"; 
-      addPhotoDiv.appendChild(newWorkForm); 
       console.log(newWorkForm);
       
       //create element of the div for the adding file section
       const addImgFileDiv = document.createElement("div"); 
         addImgFileDiv.id = "addImg";  
         addImgFileDiv.classList.add("add-img");
-        newWorkForm.appendChild(addImgFileDiv);
       const addImgPicture = document.createElement("span"); 
         addImgPicture.innerText= `image`;
         addImgPicture.classList.add("material-symbols-outlined");
-        addImgFileDiv.appendChild(addImgPicture); 
       const addImgFileLabel = document.createElement("label"); 
         addImgFileLabel.htmlFor = "myImage";
         addImgFileLabel.href = "myImage";
         addImgFileLabel.innerText = `+ Ajouter photo`;  
-        addImgFileDiv.appendChild(addImgFileLabel);
       const addImgFile = document.createElement("input");
         addImgFile.type = "file"; 
         addImgFile.name = "myImage"; 
@@ -248,42 +248,32 @@ function showModals() {
         addImgFile.accept = "image/png, image/jpeg";
         addImgFile.required = true;
         addImgFile.style.display = "none";
-        addImgFileDiv.appendChild(addImgFile);
       const addImgP = document.createElement("p"); 
         addImgP.innerText = `jpg, png: 4mo max`; 
-        addImgFileDiv.appendChild(addImgP); 
       const breakTag = document.createElement("br"); 
-        addImgFileDiv.appendChild(breakTag);
 
       //Title input 
       const formTitleLabel = document.createElement("label"); 
         formTitleLabel.htmlFor = "title"; 
         formTitleLabel.innerText = "Title"; 
-        newWorkForm.appendChild(formTitleLabel); 
         const breakTag2a = document.createElement("br"); 
-        newWorkForm.appendChild(breakTag2a);
       const formTitleInput = document.createElement("input");
         formTitleInput.setAttribute("type", "text");
         formTitleInput.name = "title"; 
         formTitleInput.id = "title"; 
         formTitleInput.required = true; 
         formTitleInput.autocomplete = "off";
-        newWorkForm.appendChild(formTitleInput); 
         const breakTag2b = document.createElement("br"); 
-        newWorkForm.appendChild(breakTag2b);
       
       //Categorie input 
       const formCatLabel = document.createElement("label");
         formCatLabel.htmlFor = "categorie-listbox"; 
         formCatLabel.innerText = "Catégories"; 
-        newWorkForm.appendChild(formCatLabel); 
       const formCatInput = document.createElement("select"); 
         formCatInput.name = "categorie-listbox"; 
         formCatInput.id = "categorie-listbox"; 
         formCatInput.required = true; 
-        newWorkForm.appendChild(formCatInput); 
         const breakTag3a = document.createElement("br"); 
-        newWorkForm.appendChild(breakTag3a);
         const option1 = document.createElement("option");
           option1.text = "Objet";
           option1.value = 1; 
@@ -297,22 +287,44 @@ function showModals() {
           option3.value = 3; 
           formCatInput.add(option3);
         const breakTag3b = document.createElement("br"); 
-          newWorkForm.appendChild(breakTag3b);
         const addPhotoModalHr = document.createElement("hr"); 
-          newWorkForm.appendChild(addPhotoModalHr);
   
       //Submit button 
       const formSubmitBtn = document.createElement("input"); 
         formSubmitBtn.setAttribute("type", "submit");
-        // formSubmitBtn.id = "submit-grey"; 
         formSubmitBtn.classList.add("btn"); 
         formSubmitBtn.value = "Valider"; 
         formSubmitBtn.disabled = true;
         newWorkForm.appendChild(formSubmitBtn); 
+        
+      modalLocation.appendChild(dialogAddPhoto); 
+      dialogAddPhoto.appendChild(addPhotoDiv); 
+      addPhotoDiv.appendChild(btnCloseAddModal); 
+      addPhotoDiv.appendChild(btnBackMainModal); 
+      addPhotoDiv.appendChild(titleAddModal); 
+      //form
+      addPhotoDiv.appendChild(newWorkForm); 
+      newWorkForm.appendChild(addImgFileDiv);
+      addImgFileDiv.appendChild(addImgPicture); //the add image input
+      addImgFileDiv.appendChild(addImgFileLabel);
+      addImgFileDiv.appendChild(addImgFile);
+      addImgFileDiv.appendChild(addImgP); 
+      addImgFileDiv.appendChild(breakTag);
+      newWorkForm.appendChild(formTitleLabel); //title input 
+      newWorkForm.appendChild(breakTag2a);
+      newWorkForm.appendChild(formTitleInput); 
+      newWorkForm.appendChild(breakTag2b);
+      newWorkForm.appendChild(formCatLabel); //catgegie input
+      newWorkForm.appendChild(formCatInput); 
+      newWorkForm.appendChild(breakTag3a);
+      newWorkForm.appendChild(breakTag3b);
+      newWorkForm.appendChild(addPhotoModalHr);
+      newWorkForm.appendChild(formSubmitBtn); //submit button
+      //still in the addPhotoModal function
       /****************************addImgFile btn***(secondary modal)*********************************************/
       newWorkForm.addEventListener('change', (e) => { 
         e.preventDefault();
-        formSubmitBtnActive(); 
+        formSubmitBtnActive(); //the submut button is active only when the requiered field are filled
         console.log("The add event listener on the formSubmitBtnActive function has ran !");
       });
       newWorkForm.addEventListener('submit', (e) => {
@@ -389,9 +401,7 @@ function showModals() {
                 dialogAddPhoto.remove();
                 galleryContentDiv.innerHTML = "";  
                 genererModalPhotos(); 
-                updatePhoto();
-                // const myTimeOut = setTimeout(updatePhoto(data), 10000);
-                // myTimeOut(myTimeOut);
+                updatePhoto(); //function imported from the ""../assets/filter.js", namely : genererPhoto()
               } else {
                 return response.json();
               }
@@ -413,6 +423,7 @@ function showModals() {
   } //end of the addModalPhoto() function 
 };//end of function 
 
+//ask the user to login again if token become : "undefined";
 function tokenExpired() {
   alert("Error when logged in. Login again before trying."); 
   window.location.href = "login.html";

@@ -27,29 +27,24 @@ function genererPhotos(){
       .then(works => {
       
         works.forEach(image => {
-
-        // const workPhoto = image[i];
-        const figurePhotos = document.createElement("figure");
-            figurePhotos.classList.add("figureImg");
-        const photoUrl = document.createElement("img");
-            photoUrl.src = image.imageUrl;
-            photoUrl.alt = image.title;
-            photoUrl.setAttribute("loading", "lazy");
-        const photoTitle = document.createElement("figcaption");
-        const photoCaption = document.createElement("p"); 
-            photoCaption.innerText = image.title;
-        
-        photoZone.appendChild(figurePhotos);
-        figurePhotos.appendChild(photoUrl); 
-        figurePhotos.appendChild(photoTitle); 
-        photoTitle.appendChild(photoCaption);  
+            const figurePhotos = document.createElement("figure");
+                figurePhotos.classList.add("figureImg");
+            const photoUrl = document.createElement("img");
+                photoUrl.src = image.imageUrl;
+                photoUrl.alt = image.title;
+                photoUrl.setAttribute("loading", "lazy");
+            const photoTitle = document.createElement("figcaption");
+            const photoCaption = document.createElement("p"); 
+                photoCaption.innerText = image.title;
+            
+            photoZone.appendChild(figurePhotos);
+            figurePhotos.appendChild(photoUrl); 
+            figurePhotos.appendChild(photoTitle); 
+            photoTitle.appendChild(photoCaption);  
         })
-        })
+    })
 }
 genererPhotos();
-// window.onload = () => { 
-//     genererPhotos(); 
-// };
 
 /********************************************************************************************************************************
  ********************************FILTERED FUNCTION AND EVENTS LISTENER***********************************************************
@@ -67,11 +62,12 @@ function noFilterBtnClass(noFilterBtn) {
 // no filter, show all button
 const noFilterBtn = document.querySelector(".all-btn");
 noFilterBtn.addEventListener("click", () => {
+    photoZone.innerHTML = "";
     // btn-class
     noFilterBtn.classList.add("active"); 
     noFilterBtn.classList.remove("filter-btn");
     // filter
-    genererPhotos(works); 
+    genererPhotos(); 
 });
 
 // The works fit into either of three cathegories : Objets, Appartements, Hotel and Restaurants.
@@ -82,35 +78,51 @@ noFilterBtn.addEventListener("click", () => {
 // *********2 (Appartements); 
 // *********3 (Hotel and Restaurants). 
 
+function filterThis(categorie) {
+    noFilterBtnClass(noFilterBtn);
+    photoZone.innerHTML = "";
+    fetch('http://localhost:5678/api/works')
+    .then(resp => resp.json())
+    .then(photo => {
+        let filtered = photo.filter((photo) => photo.categoryId === categorie);
+        console.log(filtered);
+        photoZone.innerHTML = ""; 
+        
+        filtered.forEach(image => {
+            const figurePhotos = document.createElement("figure");
+                figurePhotos.classList.add("figureImg");
+            const photoUrl = document.createElement("img");
+                photoUrl.src = image.imageUrl;
+                photoUrl.alt = image.title;
+                photoUrl.setAttribute("loading", "lazy");
+            const photoTitle = document.createElement("figcaption");
+            const photoCaption = document.createElement("p"); 
+                photoCaption.innerText = image.title;
+            
+            photoZone.appendChild(figurePhotos);
+            figurePhotos.appendChild(photoUrl); 
+            figurePhotos.appendChild(photoTitle); 
+            photoTitle.appendChild(photoCaption);  
+        })
+    })
+};
+
 // Filter for Objets, categoryId = 1
 const objectsFilterBtn = document.querySelector(".objects-btn");
 objectsFilterBtn.addEventListener("click", () => {
-    //function for button class 
-    noFilterBtnClass(noFilterBtn);
-    //supression of the photo gallery content for update
-    photoZone.innerHTML = "";
-    //filter the concerned works
-    const filtered = works.filter((x) => x.categoryId === 1);
-    //function to generate gallery anew with filter
-    genererPhotos(filtered);   
+    filterThis(1); 
 }); 
 
 // Filter for appartements, categoryId = 2
 const appartementsFilterBtn = document.querySelector(".appart-btn");
 appartementsFilterBtn.addEventListener("click", () => {
-    noFilterBtnClass(noFilterBtn); 
-    photoZone.innerHTML = "";
-    const filtered = works.filter((x) => x.categoryId === 2);
-    genererPhotos(filtered); 
+    filterThis(2);
 });
 
 // Filter for hotels and resto, categoryId = 3
 const hotelRestoFilterBtn = document.querySelector(".hotelResto-btn"); 
 hotelRestoFilterBtn.addEventListener("click", () => {
-    noFilterBtnClass(noFilterBtn);
-    photoZone.innerHTML = "";
-    const filtered = works.filter((x) => x.categoryId === 3);
-    genererPhotos(filtered); 
+    filterThis(3);
 });
 
 //export those functions and variables to the modal.js file

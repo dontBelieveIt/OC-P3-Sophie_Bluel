@@ -16,52 +16,43 @@
 //*** IF the user is registered, produce a authentication token to access the edition mode 
 //*** if the user is not registered, or if the informations provideed (email/mdp) are not correct, return an error message 
 const loginForm = document.querySelector("form");
-function login() {
+loginForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    
     const errorMsgZone = document.getElementById("errorMsg"); 
     errorMsgZone.style.display = "none"; 
     console.log("Login function has been called !");
     
-    loginForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        
-        const user = {
-            email: e.target.querySelector("[name=email]").value,
-            password: e.target.querySelector("[name=password]").value,
-        };
+    const user = {
+        email: e.target.querySelector("[name=email]").value,
+        password: e.target.querySelector("[name=password]").value,
+    };
 
-        const formData = JSON.stringify(user);
-        fetch("http://localhost:5678/api/users/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: formData
-        })
+    const formData = JSON.stringify(user);
+    fetch("http://localhost:5678/api/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: formData
+    })
 
-        .then(response => {
-            if (response.status !== 200) {
-                errorMsgZone.style.display = "block";
-                errorMsgZone.innerText = "Erreur : les informations de connexion sont incorrectes. Veuillez réessayer.";
-            } else {
-                return response.json();
-            }
-        })
-        .then(authorization => {
-            const token = authorization.token;
-            sessionStorage.setItem("authenticationToken", token);
-            window.location.href = "index.html";
-        })
-        .catch(err => {
-            console.log(err);
+    .then(response => {
+        if (response.status !== 200) {
             errorMsgZone.style.display = "block";
-            errorMsgZone.innerText = "Une erreur s'est produite lors de la connexion. Veuillez réessayer plus tard.";
-        });
+            errorMsgZone.innerText = "Erreur : les informations de connexion sont incorrectes. Veuillez réessayer.";
+        } else {
+            return response.json();
+        }
+    })
+    .then(authorization => {
+        const token = authorization.token;
+        sessionStorage.setItem("authenticationToken", token);
+        window.location.href = "index.html";
+    })
+    .catch(err => {
+        console.log(err);
+        errorMsgZone.style.display = "block";
+        errorMsgZone.innerText = "Une erreur s'est produite lors de la connexion. Veuillez réessayer plus tard.";
     });
-}
-
-/*Add Event Listener for the Submit button from the form present  on the login.html file*/
-loginForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    login();
-    console.log("loginFOrm add event listener has worked !"); 
 });
 
 /**********************************************login/logout button**********************************************************/
