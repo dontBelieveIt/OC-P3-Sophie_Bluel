@@ -10,11 +10,11 @@
 			<meta name="description" content="">
 			<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 			<link rel="stylesheet" href="./assets/style.css">
-			<!-- My added styles -->
-			<link rel="stylesheet" href="assets/mystyle.css">
-			<script type="module" src="assets/userLogin.js"></script>
+			<link rel="stylesheet" href="assets/mystyle.css"><!-- My added styles -->
+			<script type="module" src="assets/userLogin.js"></script><!-- Allow the user to log in./Other scripts not needed on this page-->
 		</head>
 	<body>
+		<!-- Appears only when the user has been logged in, above the header -->
 		<div class="edit-mode"><span class="material-symbols-outlined">edit_square</span> Mode édition</div>
 		<header>
 			<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
@@ -36,9 +36,10 @@
 					<input type="email" name="email" id="email" autocomplete="email" required><br>
 					<label for="password">Mot de passe</label><br>
 					<input type="password" name="password" id="password" autocomplete="current-password	" required><br>
+					<!--Authentication error will appear in this div, inviting the user to try again.-->
 					<div id="errorMsg"></div>
 					<input type="submit" value="Se connecter" id="submitBtn" class="btn green">
-					<a id="mdp" href="#">Mot de passe oublié</a>
+					<a id="mdp" href="#">Mot de passe oublié</a><!-- not functionnal yet-->
 				</form>
 			</section>
 		</main>

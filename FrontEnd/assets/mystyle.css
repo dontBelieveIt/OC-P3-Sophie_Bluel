@@ -1,5 +1,15 @@
-/********************************************************************************************************************
-********************************* My additions ******************************************************
+/*My additions to the "../assets/style.css" file. 
+/**********************************************************************************************************************
+*This file contains : 
+*
+***:root {} : with the theme buttons : Line 14-124 ; 
+******body,footer, a, b, button, btn ; Line 14-124 ;
+***edit mode : Line 128-145; 
+***log form page "login.html" file : Line 149-206
+***filter ("index.html" file) : Line 210-242
+***Modal : Line 244-458;
+******the main modal : Line 321-365;
+******the add Photo modal : Line 366-458
 **********************************************************************************************************************/
 :root  {
     --green : #1D6154;
@@ -15,6 +25,18 @@
 
 body {
 	background-color: var(--bg);
+}
+body>footer { 
+    position: absolute;
+    right: 0;
+    margin: 0;
+    vertical-align: unset;
+}
+footer {
+	background-color: white;
+	box-sizing: border-box;
+    width: 95rem;
+    height: 10dvh;
 }
 
 a {
@@ -33,19 +55,76 @@ a:active {
 b {
 	font-weight: 700;
 }
+
 button {
     cursor : pointer;
 }
+/* default appearance for the buttons */
+.btn {
+	font-family: 'Syne';
+    font-weight: 100;
+    font-size: 0.7rem;
+    text-align: center;
+    border-radius: 60px;
+    
+}
+/* class associated with the .btn class */
+.green {
+    color: white;
+    background-color: var(--green);	
+    margin: 2em auto;
+    width: 12rem;
+    border: none;
+	padding: 10px 2rem;
+}
+.btn-grey {
+    color: white;
+    background-color: var(--grey);	
+    margin: 2em auto;
+    width: 12rem;
+    border: none;
+	padding: 10px 2rem;
+}
+.btn-return {
+    background-color: transparent;
+	position: absolute; 
+	border: none;
+	left: 1rem; 
+	top: 1rem;
+	padding: 10px 2rem;
+}
+/* button only encountered on the modals, associated with the submit button at the bottom of each form */
+.btn-modal {
+    position: absolute;
+    bottom : 3rem;
+}
+/* the "X" button from the modal, to close them and associated with AddEvent Listeners */
+.btn-close-modal {
+	background-color: transparent;
+	position: absolute; 
+	border: none;
+	right: 1rem; 
+	top: 1rem;
+	padding: 10px 2rem;
+}
+.btn-close-modal> .material-symbols-outlined {
+	font-variation-settings:
+	'FILL' 0,
+	'wght' 600,
+	'GRAD' 0,
+	'opsz' 20
+}
 
 .material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 300,
-  'GRAD' 0,
-  'opsz' 24
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 300,
+    'GRAD' 0,
+    'opsz' 24
 }
 
 /**********************************************edit-mode**********************************************************/
+/* This is the banner which appears above the header once the user is logged in */
 .edit-mode { 
     position : absolute; 
     top: 0; 
@@ -58,7 +137,7 @@ button {
     justify-content: center;
     align-items: center;
 }
-
+/* The introduction paragraphe of Sophie Bluel, which appears on the "index.html" file */
 #introduction p { 
     width: 25.25rem;
 }
@@ -66,6 +145,7 @@ button {
 /***********************************************************Login page*********************************************************
 * Mise en forme du formulaire de connextion (adresse-mail, mot de passe, bouton de connexion)
 *******************************************************************************************************************************/
+/* form */
 #login {
 	display: flex;  
 	flex-direction: column;
@@ -75,7 +155,7 @@ button {
 	height: 100%;
 	margin: auto; 
 }
-
+/* form elements */
 #login h2{
 	margin-bottom: 0;
 }
@@ -118,24 +198,13 @@ button {
     font-weight: 500;
     color: var(--black);
 }
-
+/* The error message which appears whern the user is not successfully logged in */
 #errorMsg {
     color: red;
-    padding-top : 0.8rem; 
+    width: 24rem;
+    padding: 0.8rem;
 }
 
-body>footer { 
-    position: absolute;
-    right: 0;
-    margin: 0;
-    vertical-align: unset;
-}
-footer {
-	background-color: white;
-	box-sizing: border-box;
-    width: 95rem;
-    height: 10dvh;
-}
 
 /***********************************************************FILTER*********************************************************/
 .filter {
@@ -144,6 +213,7 @@ footer {
     margin: 2rem 0;
     gap: 1rem;
 }
+/* the "tous" button, which show all the work. Function is toggled in the "filter.js" file */
 .active {
     color: var(--bg);
     background-color: var(--green);	
@@ -151,6 +221,7 @@ footer {
     transition: .4s; 
     padding: 0.4rem 1.4rem;
 }
+/* default class of the filter button */
 .filter-btn {
     color: var(--green);
     background-color: transparent;	
@@ -163,13 +234,15 @@ footer {
     background-color: var(--green);	
     border: 1px solid var(--green);
 }
-
+/* format of the generated image in the <div class="gallery"></div>/portfolio */
 .figureImg>img {
    max-width: 20rem;
    aspect-ratio: 304 / 407;
 }
 
 /***********************************************************MODAL*********************************************************/
+/* modals are  JavaScript Generated. Go see the "modal.js" file for further informations */
+/* /from the div mesProjets, where the edit button is generated */
 #mesProjets { 
 	display: flex;
     text-align: center;
@@ -177,6 +250,7 @@ footer {
     align-items: baseline;
     padding: 2.2rem 0 2.2rem 0 ;
 }
+/* the edit button which appears once the user is logged in */
 .mes-projets-btn {
 	background: transparent;
     font-family: 'Work Sans', sans-serif;
@@ -190,44 +264,7 @@ footer {
     animation-duration: 300ms;
 }
 
-.btn {
-	font-family: 'Syne';
-    font-weight: 100;
-    font-size: 0.7rem;
-    text-align: center;
-    border-radius: 60px;
-    
-}
-
-.btn-close-modal {
-	background-color: transparent;
-	position: absolute; 
-	border: none;
-	right: 1rem; 
-	top: 1rem;
-	padding: 10px 2rem;
-}
-.btn-close-modal> .material-symbols-outlined {
-	font-variation-settings:
-	'FILL' 0,
-	'wght' 600,
-	'GRAD' 0,
-	'opsz' 20
-  }
-  
-.green {
-    color: white;
-    background-color: var(--green);	
-    margin: 2em auto;
-    width: 12rem;
-    border: none;
-	padding: 10px 2rem;
-}
-.btn-modal {
-    position: absolute;
-    bottom : 3rem;
-}
-
+/* default appearance for the modal */
 dialog {
 	width: 21rem; 
 	height: 43rem;
@@ -237,7 +274,7 @@ dialog {
     order: 50; 
     box-shadow: 0px 4px 14px var(--shadow);
 }
-
+/* appears with each modal (the mainModal and the AddPhoto one). It blacks out which is behind the modals (JavaScript generated) */
 .overlayed {
     content: "";
     background-color: rgba(0, 0, 0, 0.3);
@@ -252,6 +289,7 @@ dialog {
     order : 10;
     z-index: 10;
 }
+/* default appearance fot both modals */
 .modal {
     padding: 3rem 1rem .5rem 1rem;	
     width: 40rem;
@@ -280,7 +318,8 @@ hr {
     position: absolute;
     bottom: 8rem;
 }
-
+/*************************** gallert content for the first modal *******************************/
+/* gallery content for the delete work modal (genererModalPhotos function) */
 .gallery-content { 
     display: flex;
     justify-content: flex-start;
@@ -301,6 +340,7 @@ hr {
 .gallery-content:hover img:not(:hover) {
     opacity: 0.5;
 }
+/* delete button appearing on each photo and which allows each one to them to be deleted (deleteWork function) */
 .delete-btn {
     width: 1.5rem;
     height: 1.5rem;
@@ -316,7 +356,6 @@ hr {
     border: none;
     z-index: 23;
 }
-
 .delete-btn>.material-symbols-outlined {
   font-variation-settings:
   'FILL' 0,
@@ -324,30 +363,12 @@ hr {
   'GRAD' 0,
   'opsz' 12
 }
-
-.btn-grey {
-    color: white;
-    background-color: var(--grey);	
-    margin: 2em auto;
-    width: 12rem;
-    border: none;
-	padding: 10px 2rem;
-}
-.btn-return {
-    background-color: transparent;
-	position: absolute; 
-	border: none;
-	left: 1rem; 
-	top: 1rem;
-	padding: 10px 2rem;
-}
-
 /*************************Add photo Modal**********************************/
 .add-photo-modal { 
     order : 21;
     display: flex; 
 }
-
+/* the div which contains the add file (img) submit button */
 .add-img {
     width: 100%; 
     height: 10.55rem; 
@@ -372,7 +393,7 @@ hr {
     font-size: 4.75rem; 
     color: var(--dark-blue-grey);
 }
-
+/* other element of the form addPhoto (function) */
 .add-img> label { 
     background-color: var(--dark-blue-grey);
     padding: 0.6rem 1.5rem;

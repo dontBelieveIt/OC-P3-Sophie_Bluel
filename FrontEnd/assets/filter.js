@@ -2,13 +2,14 @@
  *Here is all element in regards with the gallery present on the portfolio part of the index.html file, as well as the filter functions.  
 
 Contents: 
-  Generer photo galerie :  Line "" 
-    *Open modal & Close modal onlick function(); 
-  Filtered Functions adn Add Event Listener : Line "" ;
-    *No filter, show all works : 
-    *Filter for objets : 
-    *Filters for Appartements : 
-    *Filter for Hotels and Restaurants: 
+  Generer photo galerie :  Line 22-47; 
+  Filtered Functions and Add Event Listener :
+    *No filter, show all works : Line 55-58;
+    ***nofilterBtn Event Listener : Line 64-71 ; 
+    *Function needed for the following Event Listener : filterThis() : Line 82-109 ;
+    ***Filter for objets : 112-115; 
+    ***Filters for Appartements : 118-121;
+    ***Filter for Hotels and Restaurants: 123-127;
 
   For the login() and looged() function, go see the userLogin.js file (../assets/userLogin.js); 
   For the modals gestions and their functions, go see the userLogin.js file (../assets/modal.js); 
@@ -21,11 +22,11 @@ let category = await resp.json();
 const photoZone = document.querySelector(".gallery");
 function genererPhotos(){
     console.log("genener photo/update photo function has been called !"); 
-    
+    //fetch the data from the API
     fetch('http://localhost:5678/api/works')
       .then(response => response.json())
       .then(works => {
-      
+        //from each image fetched from the API, those elements are created
         works.forEach(image => {
             const figurePhotos = document.createElement("figure");
                 figurePhotos.classList.add("figureImg");
@@ -59,7 +60,7 @@ function noFilterBtnClass(noFilterBtn) {
 };
 
 /**********************************************Event Listener**********************************************************/
-// no filter, show all button
+// no filter, "show all" (Tous) button
 const noFilterBtn = document.querySelector(".all-btn");
 noFilterBtn.addEventListener("click", () => {
     photoZone.innerHTML = "";

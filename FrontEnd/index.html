@@ -10,13 +10,13 @@
 		<meta name="description" content="">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 		<link rel="stylesheet" href="./assets/style.css">
-		<!-- My added styles -->
-		<link rel="stylesheet" href="assets/mystyle.css">
-		<script type="module" src="assets/userLogin.js"></script>
-		<script type="module" src="assets/filter.js"></script>
-		<script type="module" src="assets/modal.js"></script>
+		<link rel="stylesheet" href="assets/mystyle.css"><!-- My added styles -->
+		<script type="module" src="assets/userLogin.js"></script><!-- script for the user to log in-->
+		<script type="module" src="assets/filter.js"></script><!-- script for the gallery to appear and the filters-->
+		<script type="module" src="assets/modal.js"></script><!-- script for the modal to be created-->
 	</head>
 	<body>
+		<!-- Appears only when the user has been logged in, above the header -->
 		<div class="edit-mode"><span class="material-symbols-outlined">edit_square</span> Mode édition</div>
 		<header>
 			<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
@@ -45,7 +45,7 @@
 				<div id="mesProjets">
 					<h2>Mes Projets</h2> <br>
 				</div>
-
+				<!-- Anchor for the modals (modals are 100% JavaScript) -->
 				<div id="modalsAreHere"></div>
 				
 				<div class="filter">
@@ -55,7 +55,7 @@
 					<button class="btn filter-btn hotelResto-btn"> Hôtels & Restaurants</button>			
 				</div>
 				<div class="gallery">
-					<!-- Ici figure la galerie. -->
+					<!-- Here is the photo gallery. Generated through JavaScript, data via the BackEnd using API. -->
 				</div>
 			</section>
 			<section id="contact">

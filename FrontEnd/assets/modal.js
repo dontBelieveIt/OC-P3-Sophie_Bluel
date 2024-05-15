@@ -1,13 +1,18 @@
-import {updatePhoto, galleryContent} from "../assets/filter.js";
-/** *Here is all element in regards with the Modal and its functions. 
+import {updatePhoto, galleryContent} from "../assets/filter.js"; 
+//updatePhoto function : is the generatePhoto function, to allow work to appear in the gallery and the page to be updated.
+//galleryContent : is the <div class="gallery"></div>
+/************************************************************
+ *Here is all element in regards with the Modal and its functions. 
 
 Contents: 
-  editMode function : Line 26 - 44
-  Open and close modal :  Line "" 
-  *Open modal & Close modal onlick function(); 
-  Generate Photos : Line "" ;
-  Delete Photo Modal : Line ""; 
-  Add Photo Modal : Line ""; 
+  editMode function : Line 31-56;
+  showModals function : Line 70-429 ;
+  ***GenererModalPhotos function : Line 124-153 ;
+  ***DeleteWork function : Line 158-189; 
+  ***Add Photo Modal function : Line 195-; 
+  ******formSubmitBtnActive : Line 369-374; 
+  ******addImg function : Line 377-429;
+  tokenExpiredFunction : Line 432-435; 
 
   For the login() and looged() function, go see the userLogin.js file (../assets/userLogin.js); 
   For the gallery section of the index.html file and the filter button, see the filter.js file (../assets/filter.js); 
