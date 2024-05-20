@@ -273,6 +273,8 @@ dialog {
     z-index: 20;
     order: 50; 
     box-shadow: 0px 4px 14px var(--shadow);
+    position: absolute;
+    top: 80vh;
 }
 /* appears with each modal (the mainModal and the AddPhoto one). It blacks out which is behind the modals (JavaScript generated) */
 .overlayed {

@@ -40,10 +40,12 @@ function editMode() {
     const openModal = document.createElement("button"); 
       openModal.id = "data-open-modal"; 
       openModal.classList.add("mes-projets-btn"); 
+      location.hash = openModal;
       openModal.innerHTML = `<span class="material-symbols-outlined">edit_square</span>`+ `  ` + `modifier`;
       editModeButton.appendChild(openModal);
     //call the function to show the modal (100% javascript code, see below : showModals() and addPhotoModal())
     openModal.onclick = function() {
+      const scrollThere = document.getElementById("data-open-modal").scrollIntoView();
       showModals();
     };
   } else { 
@@ -211,6 +213,7 @@ function showModals() {
       //close the second modal and goes back to the first
       btnBackMainModal.addEventListener("click", () => {
         dialogAddPhoto.remove(); 
+        overlay2.remove();
         showModals(); 
       } )
     const titleAddModal = document.createElement("h1"); 
