@@ -4,12 +4,13 @@
 Contents: 
   Generer photo galerie :  Line 22-47; 
   Filtered Functions and Add Event Listener :
-    *No filter, show all works : Line 55-58;
-    ***nofilterBtn Event Listener : Line 64-71 ; 
-    *Function needed for the following Event Listener : filterThis() : Line 82-109 ;
-    ***Filter for objets : 112-115; 
-    ***Filters for Appartements : 118-121;
-    ***Filter for Hotels and Restaurants: 123-127;
+    *No filter, show all works : Line 59;
+    ***nofilterBtn Event Listener : Line 60-71 ; 
+    *Function needed for the following Event Listener : filterThis() : Line 82-110 ;
+    btnClass() : Line 113-125;
+    ***Filter for objets : 128-134; 
+    ***Filters for Appartements : 137-143;
+    ***Filter for Hotels and Restaurants: 145-152;
 
   For the login() and looged() function, go see the userLogin.js file (../assets/userLogin.js); 
   For the modals gestions and their functions, go see the userLogin.js file (../assets/modal.js); 
@@ -53,10 +54,6 @@ genererPhotos();
 // ***It has a default style : ".active", which is removed when another button from the filters is being clicked on. 
 // ***The ".active" style is reapplied once the "Tous" button is selected anew. 
 // ***".filtered-btn" is the default class for all other filter buttons.
-function noFilterBtnClass(noFilterBtn) {
-    noFilterBtn.classList.add("filter-btn"); 
-    noFilterBtn.classList.remove("active");
-};
 
 /**********************************************Event Listener**********************************************************/
 // no filter, "show all" (Tous) button
@@ -64,8 +61,12 @@ const noFilterBtn = document.querySelector(".all-btn");
 noFilterBtn.addEventListener("click", () => {
     photoZone.innerHTML = "";
     // btn-class
-    noFilterBtn.classList.add("active"); 
-    noFilterBtn.classList.remove("filter-btn");
+    btnClass(noFilterBtn, objectsFilterBtn, appartementsFilterBtn)
+    if (hotelRestoFilterBtn.classList.contains("active")) {
+        hotelRestoFilterBtn.classList.remove("active")
+        hotelRestoFilterBtn.classList.add("filter-btn"); 
+    }
+    
     // filter
     genererPhotos(); 
 });
@@ -79,7 +80,10 @@ noFilterBtn.addEventListener("click", () => {
 // *********3 (Hotel and Restaurants). 
 
 function filterThis(categorie) {
-    noFilterBtnClass(noFilterBtn);
+    //no filter button class gestion ("Tous");
+    noFilterBtn.classList.add("filter-btn"); 
+    noFilterBtn.classList.remove("active");
+
     photoZone.innerHTML = "";
     fetch('http://localhost:5678/api/works')
     .then(resp => resp.json())
@@ -106,22 +110,45 @@ function filterThis(categorie) {
     })
 };
 
+function btnClass(thisButton, otherBtn1, otherBtn2) {
+    thisButton.classList.add("active"); 
+    thisButton.classList.remove("filter-btn");
+
+    if (otherBtn1.classList.contains("active")) {
+        otherBtn1.classList.remove("active")
+        otherBtn1.classList.add("filter-btn"); 
+    }
+    if (otherBtn2.classList.contains("active")) {
+        otherBtn2.classList.remove("active")
+        otherBtn2.classList.add("filter-btn"); 
+    }
+}
+
 // Filter for Objets, categoryId = 1
 const objectsFilterBtn = document.querySelector(".objects-btn");
 objectsFilterBtn.addEventListener("click", () => {
+    //filter functions
     filterThis(1); 
+    //Classes gestions for the buttons once clicked
+    btnClass(objectsFilterBtn, appartementsFilterBtn, hotelRestoFilterBtn);
 }); 
 
 // Filter for appartements, categoryId = 2
 const appartementsFilterBtn = document.querySelector(".appart-btn");
 appartementsFilterBtn.addEventListener("click", () => {
+    //filter functions
     filterThis(2);
+    //Classes gestions for the buttons once clicked
+    btnClass(appartementsFilterBtn, hotelRestoFilterBtn, objectsFilterBtn);
 });
 
 // Filter for hotels and resto, categoryId = 3
 const hotelRestoFilterBtn = document.querySelector(".hotelResto-btn"); 
 hotelRestoFilterBtn.addEventListener("click", () => {
+    //filter functions
     filterThis(3);
+    //Classes gestions for the buttons once clicked
+    btnClass(hotelRestoFilterBtn, objectsFilterBtn, appartementsFilterBtn);
 });
 
 //export those functions and variables to the modal.js file
