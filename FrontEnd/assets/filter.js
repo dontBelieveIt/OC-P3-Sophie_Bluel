@@ -21,7 +21,6 @@ let category = await resp.json();
 /**********************************************generer photo galerie**********************************************************/
 const photoZone = document.querySelector(".gallery");
 function genererPhotos(){
-    console.log("genener photo/update photo function has been called !"); 
     //fetch the data from the API
     fetch('http://localhost:5678/api/works')
       .then(response => response.json())
@@ -86,7 +85,6 @@ function filterThis(categorie) {
     .then(resp => resp.json())
     .then(photo => {
         let filtered = photo.filter((photo) => photo.categoryId === categorie);
-        console.log(filtered);
         photoZone.innerHTML = ""; 
         
         filtered.forEach(image => {

@@ -19,7 +19,6 @@ loginForm.addEventListener('submit', function (e) {
     
     const errorMsgZone = document.getElementById("errorMsg"); 
     errorMsgZone.style.display = "none"; 
-    console.log("Login function has been called !");
     
     const user = {
         email: e.target.querySelector("[name=email]").value,
@@ -70,8 +69,6 @@ function logged() {
     const editModeBanner = document.querySelector(".edit-mode"); 
 
     const token = sessionStorage.getItem("authenticationToken");
-    console.log(token);
-    console.log("logged function is being called !")
 
     if (token) {
         logoutBtn.style.display = "block"; 
@@ -89,7 +86,6 @@ function logged() {
     logoutBtn.addEventListener("click", () => {
         sessionStorage.removeItem("authenticationToken"); 
         window.location.href = "index.html"; 
-        console.log(token);
         alert("Log out successful !")
     });
 }

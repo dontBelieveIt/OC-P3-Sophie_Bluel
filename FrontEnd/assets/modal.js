@@ -29,7 +29,6 @@ const filterDiv = document.querySelector(".filter");
 const headerEdit = document.querySelector("header"); 
 //if the edit button is present, the modals : main modale (delete function) and add photo modal (add work function) are both accessible.
 function editMode() {
-  console.log("edit mode function is active !")
   if (token) {
     // To remove the fitler buttons, which are not active on the edit mode;
     filterDiv.classList.remove("filter");
@@ -45,7 +44,6 @@ function editMode() {
       editModeButton.appendChild(openModal);
     //call the function to show the modal (100% javascript code, see below : showModals() and addPhotoModal())
     openModal.onclick = function() {
-      console.log("I clicked !");
       showModals();
     };
   } else { 
@@ -68,7 +66,6 @@ const modalLocation = document.getElementById("modalsAreHere");
 const body = document.querySelector("body");
 //allow the modal to be built
 function showModals() {
-  console.log("show modals function has been called !");
 
   //the black background behind the modal
   const overlay = document.createElement("div"); 
@@ -90,7 +87,6 @@ function showModals() {
     buttonCloseModal.innerHTML = `<span class="material-symbols-outlined">close</span>`; 
     modalContent.appendChild(buttonCloseModal); 
     buttonCloseModal.addEventListener("click", () => {
-      console.log("I clicked on the close modal button !");
       mainModal.remove();
       overlay.remove();
     }); //end of the buttonCloseModal Event listener
@@ -108,7 +104,6 @@ function showModals() {
     buttonOpenAddModal.innerText = `Ajouter une photo`; 
     modalContent.appendChild(buttonOpenAddModal);
     buttonOpenAddModal.addEventListener("click", () => { 
-      console.log("I clicked to go to the second modal !")
       mainModal.remove();
       overlay.remove();
       addPhotoModal(); 
@@ -122,7 +117,6 @@ function showModals() {
   /**********************************************Generate photo***(main modal)*******************************************************/
   // Function for the photos to appear in the modal, (duplication from the generatePhoto(works) (function from the "assets/filter.js" file))
   function genererModalPhotos(){
-    console.log("function generer modal photo is turning !")
     //To fetch the ressources in the gallerie-content for the modal
     fetch('http://localhost:5678/api/works')
       .then(resp => resp.json())
@@ -158,10 +152,8 @@ function showModals() {
   function deleteWork(e) {
     if (token === undefined || token === null) {
       tokenExpired(); //this function appears in case of an authentication problem, to avoid a error 401 whislt edit mode is still on
-      console.log("Token expired, reconnect again! ");
     } else { 
       e.preventDefault(); //prevent the page from reloading
-      console.log("The delete work function is present !"); 
       const itemId = e.currentTarget.getAttribute("dataId"); //get the id of the work in question
 
       fetch(`http://localhost:5678/api/works/${itemId}`, {
@@ -183,7 +175,7 @@ function showModals() {
         }
       })
       .catch(error => {
-        console.log(error);
+        console.log(error)
       });
     }//end of the if statement; 
   };  //function deleteWork(e)
@@ -193,7 +185,6 @@ function showModals() {
   *********************************************** add photo modal***(secondary modal)************************************************************************
   ******************************************************************************************************************************************/
   function addPhotoModal() {
-    console.log("add photo modal function is here!")
     //create the overlay for the second modal
     const overlay2 = document.createElement("div"); 
     overlay2.classList.add("overlayed"); 
@@ -233,7 +224,6 @@ function showModals() {
     //Form  
     const newWorkForm = document.createElement("form"); 
       newWorkForm.id = "addPhoto"; 
-      console.log(newWorkForm);
       
       //create element of the div for the adding file section
       const addImgFileDiv = document.createElement("div"); 
@@ -330,7 +320,6 @@ function showModals() {
       newWorkForm.addEventListener('change', (e) => { 
         e.preventDefault();
         formSubmitBtnActive(); //the submut button is active only when the requiered field are filled
-        console.log("The add event listener on the formSubmitBtnActive function has ran !");
       });
       newWorkForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -340,10 +329,9 @@ function showModals() {
       addImgFile.addEventListener('input', (e) => { 
         const imgFileLength = addImgFile.files[0].size; 
         if(imgFileLength > 0){
-            let fileSizeMb = imgFileLength /1024 / 1024 ; //convert byte to kiloBytes (first 1024) then to Megabytes (second 1024); 
+            let fileSizeMb = imgFileLength / 1024 / 1024 ; //convert byte to kiloBytes (first 1024) then to Megabytes (second 1024); 
             let fileSizeLimit = 32 //Megabits : because 4Mo = 32Mb. 
             if (fileSizeMb < fileSizeLimit) {
-              console.log("Your image respect the size limit."); 
               addImgPicture.remove(); 
               addImgFileLabel.remove(); 
               addImgFile.remove();
@@ -369,7 +357,6 @@ function showModals() {
       function formSubmitBtnActive() {
         if (addImgFile.files[0] != undefined && formTitleInput.value != "") {
           formSubmitBtn.disabled = false; 
-          console.log("Submit button has been abled !");
         }
       };
     // /**********************************************add photo function***API*******************************************************/
@@ -378,9 +365,7 @@ function showModals() {
 
       if (token === undefined || token === null) {
         tokenExpired(); 
-        console.log("Token expired, reconnect again! ");
       } else { 
-        console.log("The add Image function has been called !")
         const dialogModal = document.querySelector("dialog");
         dialogModal.classList.add("loading"); 
         formSubmitBtn.disabled = true; 
@@ -404,6 +389,7 @@ function showModals() {
                 dialogModal.classList.remove("loading");
                 overlay2.remove();
                 dialogAddPhoto.remove();
+                showModals();
                 galleryContentDiv.innerHTML = "";  
                 genererModalPhotos(); 
                 updatePhoto(); //function imported from the ""../assets/filter.js", namely : genererPhoto()
@@ -422,7 +408,6 @@ function showModals() {
     };
     formSubmitBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      console.log("You clicked the submit button !");
       addImg();
     });
   } //end of the addModalPhoto() function 
