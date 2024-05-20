@@ -415,6 +415,6 @@ function showModals() {
 
 //ask the user to login again if token become : "undefined";
 function tokenExpired() {
-  alert("Error when logged in. Login again before trying."); 
+  alert("Erreur lors de l'authentification. Veuillez réessayer."); 
   window.location.href = "login.html";
 };

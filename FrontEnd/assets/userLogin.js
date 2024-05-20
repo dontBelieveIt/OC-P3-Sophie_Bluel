@@ -47,8 +47,6 @@ loginForm.addEventListener('submit', function (e) {
     })
     .catch(err => {
         console.log(err);
-        errorMsgZone.style.display = "block";
-        errorMsgZone.innerText = "Une erreur s'est produite lors de la connexion. Veuillez réessayer plus tard.";
     });
 });
 
@@ -86,7 +84,7 @@ function logged() {
     logoutBtn.addEventListener("click", () => {
         sessionStorage.removeItem("authenticationToken"); 
         window.location.href = "index.html"; 
-        alert("Log out successful !")
+        alert("Vous avez été déconnecté⸱e avec succès !")
     });
 }
 logged();
