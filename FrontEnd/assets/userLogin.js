@@ -46,7 +46,7 @@ loginForm.addEventListener('submit', function (e) {
         window.location.href = "index.html";
     })
     .catch(err => {
-        console.log(err);
+        console.error;
     });
 });
 

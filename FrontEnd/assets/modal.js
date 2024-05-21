@@ -177,7 +177,7 @@ function showModals() {
         }
       })
       .catch(error => {
-        console.log(error)
+        console.error;
       });
     }//end of the if statement; 
   };  //function deleteWork(e)
@@ -405,7 +405,7 @@ function showModals() {
               window.location.href = "index.html";
           })
           .catch(error => {
-              console.log(error);
+              console.error;
           });
       }//end of the if(token) treat
     };
