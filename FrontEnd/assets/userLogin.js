@@ -3,8 +3,8 @@
  As well as the gestion and storage of the authentication token once logged in successfully. 
 
 *Contents: 
-    Function login(), withing the loginForm Add Event Listener : Line 17-54 ;
-    Logged function : Line 63-96;
+    Function login(), withing the loginForm Add Event Listener : Line 16-48 ;
+    Logged function : Line 57-87;
 
   For the modals gestions and their functions, go see the userLogin.js file (../assets/modal.js); 
   For the gallery section of the index.html file and the filter button, see the filter.js file (../assets/filter.js); 
@@ -45,9 +45,6 @@ loginForm.addEventListener('submit', function (e) {
         sessionStorage.setItem("authenticationToken", token);
         window.location.href = "index.html";
     })
-    .catch(err => {
-        console.error;
-    });
 });
 
 /**********************************************login/logout button**********************************************************/

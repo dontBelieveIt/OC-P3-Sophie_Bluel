@@ -2,11 +2,11 @@
  *Here is all element in regards with the gallery present on the portfolio part of the index.html file, as well as the filter functions.  
 
 Contents: 
-  Generer photo galerie :  Line 22-47; 
-  Filtered Functions and Add Event Listener :
-    *No filter, show all works : Line 59;
-    ***nofilterBtn Event Listener : Line 60-71 ; 
-    *Function needed for the following Event Listener : filterThis() : Line 82-110 ;
+  Generer photo galerie :  Line 23-48; 
+  Filtered Functions and Add Event Listener : Line 60-152
+    *No filter, show all works : Line 60;
+    ***nofilterBtn Event Listener : Line 60-72 ; 
+    *Function needed for the following Event Listener : filterThis() : Line 82-111 ;
     btnClass() : Line 113-125;
     ***Filter for objets : 128-134; 
     ***Filters for Appartements : 137-143;

@@ -6,13 +6,13 @@ import {updatePhoto, galleryContent} from "../assets/filter.js";
 
 Contents: 
   editMode function : Line 31-56;
-  showModals function : Line 70-429 ;
-  ***GenererModalPhotos function : Line 124-153 ;
-  ***DeleteWork function : Line 158-189; 
-  ***Add Photo Modal function : Line 195-; 
-  ******formSubmitBtnActive : Line 369-374; 
-  ******addImg function : Line 377-429;
-  tokenExpiredFunction : Line 432-435; 
+  showModals function : Line 70-411 ;
+  ***GenererModalPhotos function : Line 121-149 ;
+  ***DeleteWork function : Line 154-181; 
+  ***Add Photo Modal function : Line 186-411; 
+  ******formSubmitBtnActive : Line 357-361; 
+  ******addImg function : Line 364-411;
+  tokenExpiredFunction : Line 414-417; 
 
   For the login() and looged() function, go see the userLogin.js file (../assets/userLogin.js); 
   For the gallery section of the index.html file and the filter button, see the filter.js file (../assets/filter.js); 
@@ -176,9 +176,6 @@ function showModals() {
           tokenExpired(); //the user is asked to try after login again
         }
       })
-      .catch(error => {
-        console.error;
-      });
     }//end of the if statement; 
   };  //function deleteWork(e)
   //still in the showModals function
@@ -404,9 +401,6 @@ function showModals() {
               sessionStorage.setItem("authenticationToken", authorization.token);
               window.location.href = "index.html";
           })
-          .catch(error => {
-              console.error;
-          });
       }//end of the if(token) treat
     };
     formSubmitBtn.addEventListener('click', (e) => {
