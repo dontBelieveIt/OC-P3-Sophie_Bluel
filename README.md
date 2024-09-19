@@ -10,19 +10,18 @@ This project focuses on creating a dynamic web page using JavaScript and API. It
 1. Clone this repository to your local machine.
 2.Navigate to the project directory.
 3. Install dependencies for the back-end by running:
-```bash
-npm install
-```
+  ```bash
+  npm install
+  ```
 4. Run the project using two separate instances:
-
-- * For the front-end directory:
-```bash
-npm start
-```
-- * For the back-end directory:
-```bash
-npm start
-```
+  * For the front-end directory:
+  ```bash
+  npm start
+  ```
+  * For the back-end directory:
+  ```bash
+  npm start
+  ```
 5. Ensure both instances are running simultaneously for the website to function properly.
 
 ## Usage
