@@ -15,11 +15,11 @@ npm install
 ```
 4. Run the project using two separate instances:
 
-4. * For the front-end directory:
+- For the front-end directory:
 ```bash
 npm start
 ```
-4. * For the back-end directory:
+- For the back-end directory:
 ```bash
 npm start
 ```
