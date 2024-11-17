@@ -6,10 +6,13 @@ This project focuses on creating a dynamic web page using JavaScript and API. It
 1. Dynamic Web Page: Utilizes JavaScript to create interactive elements and dynamic content updates.
 2. Responsive Design: Ensures that the web page works well across different devices.
 
+## Appearance 
+![Screenshot, homepage](demo_sophie_landing-page.png) ![Screenshot, login page](demo_sophie_login-page.png) ![Screenshot, filter section](demo_sophie_filter.png)
+
 ## Installation
 1. Clone this repository to your local machine.
-2.Navigate to the project directory.
-3. Install dependencies for the back-end by running:
+2. Navigate to the project directory.
+3. Install dependencies for the back-end and the front-end by running:
   ```bash
   npm install
   ```
